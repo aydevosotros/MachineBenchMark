@@ -9,6 +9,7 @@ class StartQT4(QtGui.QMainWindow):
         self.ui.setupUi(self)
         # here we connect signals with our slots
         QtCore.QObject.connect(self.ui.TrainButton, QtCore.SIGNAL("clicked()"), self.file_dialog)
+        
     def file_dialog(self):
         self.ui.editor_window.setText('aaaaaaaaaa')
 
