@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Fri Dec 20 17:39:49 2013
+# Created: Sat Dec 21 14:32:55 2013
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -70,9 +70,34 @@ class Ui_MainWindow(object):
         self.tab_2 = QtGui.QWidget()
         self.tab_2.setObjectName(_fromUtf8("tab_2"))
         self.groupBox_2 = QtGui.QGroupBox(self.tab_2)
-        self.groupBox_2.setGeometry(QtCore.QRect(40, 30, 241, 171))
+        self.groupBox_2.setGeometry(QtCore.QRect(40, 30, 291, 171))
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
+        self.startsDate = QtGui.QDateEdit(self.groupBox_2)
+        self.startsDate.setGeometry(QtCore.QRect(130, 40, 110, 27))
+        self.startsDate.setObjectName(_fromUtf8("startsDate"))
+        self.label_3 = QtGui.QLabel(self.groupBox_2)
+        self.label_3.setGeometry(QtCore.QRect(20, 50, 66, 17))
+        self.label_3.setObjectName(_fromUtf8("label_3"))
+        self.label_4 = QtGui.QLabel(self.groupBox_2)
+        self.label_4.setGeometry(QtCore.QRect(20, 90, 66, 17))
+        self.label_4.setObjectName(_fromUtf8("label_4"))
+        self.endDate = QtGui.QDateEdit(self.groupBox_2)
+        self.endDate.setGeometry(QtCore.QRect(130, 80, 110, 27))
+        self.endDate.setDate(QtCore.QDate(2012, 1, 1))
+        self.endDate.setObjectName(_fromUtf8("endDate"))
+        self.getTrainingButton = QtGui.QPushButton(self.groupBox_2)
+        self.getTrainingButton.setGeometry(QtCore.QRect(67, 130, 131, 27))
+        self.getTrainingButton.setObjectName(_fromUtf8("getTrainingButton"))
+        self.groupBox_3 = QtGui.QGroupBox(self.tab_2)
+        self.groupBox_3.setGeometry(QtCore.QRect(40, 210, 271, 221))
+        self.groupBox_3.setObjectName(_fromUtf8("groupBox_3"))
         self.tabWidget.addTab(self.tab_2, _fromUtf8(""))
+        self.tab_3 = QtGui.QWidget()
+        self.tab_3.setObjectName(_fromUtf8("tab_3"))
+        self.graphicsView = PlotWidget(self.tab_3)
+        self.graphicsView.setGeometry(QtCore.QRect(325, 31, 431, 391))
+        self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
+        self.tabWidget.addTab(self.tab_3, _fromUtf8(""))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 25))
@@ -89,7 +114,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuEdit.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -105,7 +130,13 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "Regularization", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Machine settings", None))
         self.groupBox_2.setTitle(_translate("MainWindow", "Training Set Parameters", None))
+        self.label_3.setText(_translate("MainWindow", "Starts at:", None))
+        self.label_4.setText(_translate("MainWindow", "Ends at:", None))
+        self.getTrainingButton.setText(_translate("MainWindow", "Get Training Set", None))
+        self.groupBox_3.setTitle(_translate("MainWindow", "Manipulate Training Set", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Training Set", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Portfolio", None))
         self.menuML_BenchMark.setTitle(_translate("MainWindow", "File", None))
         self.menuEdit.setTitle(_translate("MainWindow", "Edit", None))
 
+from pyqtgraph import PlotWidget
