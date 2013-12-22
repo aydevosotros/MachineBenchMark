@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Sat Dec 21 14:32:55 2013
+# Created: Sun Dec 22 13:41:05 2013
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -91,6 +91,10 @@ class Ui_MainWindow(object):
         self.groupBox_3 = QtGui.QGroupBox(self.tab_2)
         self.groupBox_3.setGeometry(QtCore.QRect(40, 210, 271, 221))
         self.groupBox_3.setObjectName(_fromUtf8("groupBox_3"))
+        self.widget = Ui_SymbolSearchWidget(self.groupBox_3)
+        self.widget.setGeometry(QtCore.QRect(0, 30, 281, 191))
+        self.widget.setObjectName(_fromUtf8("widget"))
+        self.widget.setupUi(self.widget)
         self.tabWidget.addTab(self.tab_2, _fromUtf8(""))
         self.tab_3 = QtGui.QWidget()
         self.tab_3.setObjectName(_fromUtf8("tab_3"))
@@ -114,7 +118,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuEdit.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -140,3 +144,4 @@ class Ui_MainWindow(object):
         self.menuEdit.setTitle(_translate("MainWindow", "Edit", None))
 
 from pyqtgraph import PlotWidget
+from SymbolSearchWidget import Ui_SymbolSearchWidget  

@@ -37,7 +37,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -244,6 +244,16 @@
       <property name="title">
        <string>Manipulate Training Set</string>
       </property>
+      <widget class="SymbolSearchWidget" name="widget" native="true">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>30</y>
+         <width>281</width>
+         <height>191</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_3">
@@ -292,6 +302,12 @@
    <class>PlotWidget</class>
    <extends>QGraphicsView</extends>
    <header>pyqtgraph</header>
+  </customwidget>
+  <customwidget>
+   <class>SymbolSearchWidget</class>
+   <extends>QWidget</extends>
+   <header>symbolsearchwidget</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

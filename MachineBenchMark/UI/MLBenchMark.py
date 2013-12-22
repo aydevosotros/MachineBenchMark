@@ -1,5 +1,6 @@
 import sys
 from DataMining import historicalprices
+from DataMining import SymbolsParser
 from PyQt4 import QtCore, QtGui
 from pruebaUi import Ui_MainWindow
 from DataMining.historicalprices import get_historical
@@ -13,6 +14,8 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.TrainButton, QtCore.SIGNAL("clicked()"), self.file_dialog)
         self.connect(self.ui.getTrainingButton, QtCore.SIGNAL("clicked()"), self.getTrainingSet)
         
+        SymbolsParser.getSymbols('go')
+        
     def file_dialog(self):
         self.ui.editor_window.setText('aaaaaaaaaa')
         
@@ -22,9 +25,8 @@ class StartQT4(QtGui.QMainWindow):
         EndDate = self.ui.endDate.date()
         get_historical('GOOG', StartDate.day(), StartDate.month(), StartDate.year(), EndDate.day(), EndDate.month(), EndDate.year())
         print("Archivo descargado") 
+        SymbolsParser.getSymbols("google")
         
-        print(StartDate.day())   
-        print(StartDate.month())
 
 
 if __name__ == "__main__":
