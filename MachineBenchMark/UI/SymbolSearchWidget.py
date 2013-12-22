@@ -41,18 +41,31 @@ class Ui_SymbolSearchWidget(QtGui.QWidget):
         self.retranslateUi(SymbolSearchWidget)
         QtCore.QMetaObject.connectSlotsByName(SymbolSearchWidget)
         
+        # Initialize some parameters
+        self.symbolSelected = ""
+        
         # Conecting signals
         QtCore.QObject.connect(self.queryBox, QtCore.SIGNAL("textChanged(QString)"), self.queryChanged)
+        self.model = QtGui.QStandardItemModel()
+        self.listView.clicked.connect(self.itemSelected)
 
     def retranslateUi(self, SymbolSearchWidget):
         SymbolSearchWidget.setWindowTitle(_translate("SymbolSearchWidget", "Form", None))
         self.label.setText(_translate("SymbolSearchWidget", "Query:", None))
         
     def queryChanged(self, text):
-        model = QtGui.QStandardItemModel()
+#         QtCore.QObject.disconnect(self.model, QtCore.SIGNAL("itemChanged(QStandardItem)"))
+        self.model.clear();
         elements = SymbolsParser.getSymbols(str(text))
         for ele in elements:
-            item = QtGui.QStandardItem(ele['name'])
-            model.appendRow(item)
-        self.listView.setModel(model)
+            item = QtGui.QStandardItem(ele['symbol'] + " - " + ele['name'])
+            self.model.appendRow(item)
+        self.listView.setModel(self.model)
+        
+    def itemSelected(self, item):
+        self.symbolSelected = self.model.item(item.row(), column=0).text().split(" - ")[0]
+        
+        
+    def getSymbolSelected(self):
+        return self.symbolSelected
 
