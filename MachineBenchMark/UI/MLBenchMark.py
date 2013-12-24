@@ -1,4 +1,5 @@
 import sys
+import csv
 from DataMining import historicalprices
 from DataMining import SymbolsParser
 from PyQt4 import QtCore, QtGui
@@ -16,6 +17,7 @@ class StartQT4(QtGui.QMainWindow):
         self.ui.widget.setupUi(self.ui.widget)
         # here we connect signals with our slots
         QtCore.QObject.connect(self.ui.TrainButton, QtCore.SIGNAL("clicked()"), self.file_dialog)
+        QtCore.QObject.connect(self.ui.PlotVolumeButton, QtCore.SIGNAL("clicked()"), self.plotVolume)
         self.connect(self.ui.getTrainingButton, QtCore.SIGNAL("clicked()"), self.getTrainingSet)
                 
     def file_dialog(self):
@@ -23,17 +25,40 @@ class StartQT4(QtGui.QMainWindow):
         
     def getTrainingSet(self):
         # Obtengo las fechas para la descarga
-        StartDate = self.ui.startsDate.date()
-        EndDate = self.ui.endDate.date()
-        symbol = str(self.ui.widget.getSymbolSelected())
-        get_historical(symbol, StartDate.day(), StartDate.month(), StartDate.year(), EndDate.day(), EndDate.month(), EndDate.year())
+        self.StartDate = self.ui.startsDate.date()
+        self.EndDate = self.ui.endDate.date()
+        self.symbol = str(self.ui.widget.getSymbolSelected())
+        get_historical(self.symbol, self.StartDate.day(), self.StartDate.month(), self.StartDate.year(), self.EndDate.day(), self.EndDate.month(), self.EndDate.year())
         print("Archivo descargado")  
         # Pinto los datos
-        x = np.arange(1000)
-        y = np.random.normal(size=(3, 1000))
-        plotWidget = pg.plot(title="Three plot curves")
-        for i in range(3):
-            plotWidget.plot(x, y[i], pen=(i,3))       
+                
+        
+    def plotVolume(self):
+        ifile = open('../Values/' + self.symbol + '.csv', "rb")
+        reader = csv.reader(ifile)
+        x = []
+        y = []
+        rownum = 0
+        for row in reader:
+            # Save header row.
+            if rownum == 0:
+                header = row
+            else:
+                colnum = 0
+                for col in row:
+                    if colnum == 0:
+                        print(rownum - 1)
+                        x.append(rownum - 1)
+                    elif colnum == 5:
+                        y.append(int(col))
+                    print '%-8s: %s' % (header[colnum], col)
+                    colnum += 1                     
+            rownum += 1         
+        ifile.close()
+        
+        plotWidget = pg.plot(title="Volume over the time")
+        plotWidget.plot(np.asarray(x), np.asarray(y), pen=(1, 3))    
+
 
 
 

@@ -6,8 +6,9 @@ import re
 def get_historical(symbol, startDay, startMonth, startYear, endDay, endMonth, endYear):
 	base_url = 'http://www.google.com/finance/historical?q='
 	time_range = '&startdate='+monthTraslator(startMonth)+'+'+str(startDay)+'%2C+'+str(startYear)+'&enddate='+monthTraslator(endMonth)+'+'+str(endDay)+'%2C+'+str(endYear) #Esto se formatea para unas fechas concretas
-	print("Descagando: " + base_url + symbol + time_range + "&output=csv", symbol+".csv")
-	data = urllib.urlretrieve(base_url + symbol + time_range + "&output=csv", symbol+".csv")
+	base_url = base_url + symbol + time_range + "&output=csv"
+	print("Descagando: " + base_url)
+	data = urllib.urlretrieve(base_url, "../Values/"+symbol+".csv")
 	print(data)
 
 def monthTraslator(month):
