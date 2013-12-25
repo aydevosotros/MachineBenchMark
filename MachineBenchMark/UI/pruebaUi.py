@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Tue Dec 24 09:26:24 2013
+# Created: Wed Dec 25 13:28:44 2013
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -124,7 +124,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "Machine Learning BenchMark", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Machine Learning BenchMarks", None))
         self.TrainButton.setText(_translate("MainWindow", "Train", None))
         self.groupBox.setTitle(_translate("MainWindow", "Machine parameters", None))
         self.comboBox.setItemText(0, _translate("MainWindow", "Linear Regression", None))
