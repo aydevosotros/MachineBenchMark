@@ -257,7 +257,7 @@
       <widget class="QPushButton" name="PlotVolumeButton">
        <property name="geometry">
         <rect>
-         <x>67</x>
+         <x>30</x>
          <y>30</y>
          <width>191</width>
          <height>27</height>
@@ -265,6 +265,19 @@
        </property>
        <property name="text">
         <string>Plot Volume</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_2">
+       <property name="geometry">
+        <rect>
+         <x>33</x>
+         <y>80</y>
+         <width>191</width>
+         <height>27</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Plot Candles</string>
        </property>
       </widget>
      </widget>
