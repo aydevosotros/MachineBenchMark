@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Wed Dec 25 13:28:44 2013
+# Created: Fri Jan 10 19:02:17 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -95,8 +95,11 @@ class Ui_MainWindow(object):
         self.groupBox_3.setGeometry(QtCore.QRect(390, 30, 371, 321))
         self.groupBox_3.setObjectName(_fromUtf8("groupBox_3"))
         self.PlotVolumeButton = QtGui.QPushButton(self.groupBox_3)
-        self.PlotVolumeButton.setGeometry(QtCore.QRect(67, 30, 191, 27))
+        self.PlotVolumeButton.setGeometry(QtCore.QRect(30, 30, 191, 27))
         self.PlotVolumeButton.setObjectName(_fromUtf8("PlotVolumeButton"))
+        self.PlotCandlesButton = QtGui.QPushButton(self.groupBox_3)
+        self.PlotCandlesButton.setGeometry(QtCore.QRect(30, 70, 191, 27))
+        self.PlotCandlesButton.setObjectName(_fromUtf8("PlotCandlesButton"))
         self.tabWidget.addTab(self.tab_2, _fromUtf8(""))
         self.tab_3 = QtGui.QWidget()
         self.tab_3.setObjectName(_fromUtf8("tab_3"))
@@ -141,6 +144,7 @@ class Ui_MainWindow(object):
         self.getTrainingButton.setText(_translate("MainWindow", "Get Training Set", None))
         self.groupBox_3.setTitle(_translate("MainWindow", "Options", None))
         self.PlotVolumeButton.setText(_translate("MainWindow", "Plot Volume", None))
+        self.PlotCandlesButton.setText(_translate("MainWindow", "Plot Candles", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Training Set", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Portfolio", None))
         self.menuML_BenchMark.setTitle(_translate("MainWindow", "File", None))

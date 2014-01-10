@@ -10,7 +10,7 @@ class LabelGetter(object):
     '''
 
 
-    def __init__(selfparams):
+    def __init__(self, selfparams):
         '''
         Constructor
         '''
