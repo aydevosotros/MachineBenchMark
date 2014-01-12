@@ -26,6 +26,9 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.PlotVolumeButton, QtCore.SIGNAL("clicked()"), self.plotVolume)
         QtCore.QObject.connect(self.ui.PlotCandlesButton, QtCore.SIGNAL("clicked()"), self.plotCandle)
         self.connect(self.ui.getTrainingButton, QtCore.SIGNAL("clicked()"), self.getTrainingSet)
+        self.connect(self.ui.getTrainingButtonMod, QtCore.SIGNAL("clicked()"), self.modifyTrainingSet)
+        QtCore.QObject.connect(self.ui.addToPortfolioButton, QtCore.SIGNAL("clicked()"), self.addToPortfolio)
+        QtCore.QObject.connect(self.ui.getLabelButton, QtCore.SIGNAL("clicked()"), self.calculateWinningsLooses)
                 
     def file_dialog(self):
         self.ui.editor_window.setText('aaaaaaaaaa')
@@ -39,7 +42,141 @@ class StartQT4(QtGui.QMainWindow):
         print("Archivo descargado")  
         # Pinto los datos
                 
-        
+    def modifyTrainingSet(self):
+        self.symbol = str(self.ui.widget.getSymbolSelected())
+        self.StartDate = self.ui.startsDate.date()
+        self.EndDate = self.ui.endDate.date()
+        ifile = open('../Values/' + self.symbol + '.csv', "rb")
+        reader = csv.reader(ifile)
+        rownum = 1
+        counter = 0
+        openDate = ""
+        openValue = 0.0
+        closeValue = 0.0
+        highValue = 0.0
+        lowValue = sys.float_info.max
+        volValue = 0
+        rowmax = len(list(reader))
+        ifile = open('../Values/' + self.symbol + '.csv', "rb")
+        reader = csv.reader(ifile)
+        if self.ui.comboBox_2.currentText() == 'Day/s':
+            print "Partimos por dias"
+            ofile = open('../Values/' + self.symbol + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'd' + '.csv', "wb")
+            writer = csv.writer(ofile)
+            for row in reader:
+                # Save header row.
+                if rownum == 1:
+                    header = row
+                    writer.writerow(header)
+                else:
+                    counter += 1
+                    colnum = 0
+                    for col in row:
+                        if counter == self.ui.spinBox.value() or rownum == rowmax:
+                            if colnum == 0:
+                                openDate = str(col);
+                            if colnum == 1:
+                                openValue = float(col)
+                        if counter == 1:
+                            if colnum == 4:
+                                closeValue = float(col)
+                        if colnum == 2:
+                            if float(col) > highValue:
+                                highValue = float(col)
+                        if colnum == 3:
+                            if float(col) < lowValue:
+                                lowValue = float(col)
+                        if colnum == 5:
+                            volValue += int(col)
+                        colnum += 1
+                    if counter == self.ui.spinBox.value() or rownum == rowmax:
+                        counter = 0
+                        writer.writerow([openDate,openValue,highValue,lowValue,closeValue,volValue])
+                        highValue = 0.0
+                        lowValue = sys.float_info.max     
+                        volValue = 0;            
+                rownum += 1         
+            ifile.close()
+            ofile.close()
+        elif self.ui.comboBox_2.currentText() == 'Month/s':
+            print "Partimos por meses"
+            ofile = open('../Values/' + self.symbol + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'm' + '.csv', "wb")
+            writer = csv.writer(ofile)
+            for row in reader:
+                # Save header row.
+                if rownum == 1:
+                    header = row
+                    writer.writerow(header)
+                else:
+                    counter += 1
+                    colnum = 0
+                    for col in row:
+                        if counter == (self.ui.spinBox.value()*30) or rownum == rowmax:
+                            if colnum == 0:
+                                openDate = str(col);
+                            if colnum == 1:
+                                openValue = float(col)
+                        if counter == 1:
+                            if colnum == 4:
+                                closeValue = float(col)
+                        if colnum == 2:
+                            if float(col) > highValue:
+                                highValue = float(col)
+                        if colnum == 3:
+                            if float(col) < lowValue:
+                                lowValue = float(col)
+                        if colnum == 5:
+                            volValue += int(col)
+                        colnum += 1
+                    if counter == (self.ui.spinBox.value()*30) or rownum == rowmax:
+                        counter = 0
+                        writer.writerow([openDate,openValue,highValue,lowValue,closeValue,volValue])
+                        highValue = 0.0
+                        lowValue = sys.float_info.max     
+                        volValue = 0;            
+                rownum += 1         
+            ifile.close()
+            ofile.close()
+        elif self.ui.comboBox_2.currentText() == 'Year/s':
+            print "Partimos por anyos"
+            ofile = open('../Values/' + self.symbol + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'y' + '.csv', "wb")
+            writer = csv.writer(ofile)
+            for row in reader:
+                # Save header row.
+                if rownum == 1:
+                    header = row
+                    writer.writerow(header)
+                else:
+                    counter += 1
+                    colnum = 0
+                    for col in row:
+                        if counter == (self.ui.spinBox.value()*365) or rownum == rowmax:
+                            if colnum == 0:
+                                openDate = str(col);
+                            if colnum == 1:
+                                openValue = float(col)
+                        if counter == 1:
+                            if colnum == 4:
+                                closeValue = float(col)
+                        if colnum == 2:
+                            if float(col) > highValue:
+                                highValue = float(col)
+                        if colnum == 3:
+                            if float(col) < lowValue:
+                                lowValue = float(col)
+                        if colnum == 5:
+                            volValue += int(col)
+                        colnum += 1
+                    if counter == (self.ui.spinBox.value()*365) or rownum == rowmax:
+                        counter = 0
+                        writer.writerow([openDate,openValue,highValue,lowValue,closeValue,volValue])
+                        highValue = 0.0
+                        lowValue = sys.float_info.max     
+                        volValue = 0;            
+                rownum += 1         
+            ifile.close()
+            ofile.close()
+    
     def plotVolume(self):
         self.symbol = str(self.ui.widget.getSymbolSelected())
         ifile = open('../Values/' + self.symbol + '.csv', "rb")
@@ -102,7 +239,42 @@ class StartQT4(QtGui.QMainWindow):
         
         plt.show()
 
+    def addToPortfolio(self):
+        self.symbol = str(self.ui.widget.getSymbolSelected())
+        self.StartDate = self.ui.startsDate.date()
+        self.EndDate = self.ui.endDate.date()
+        self.ui.listWidget.addItem(self.symbol + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'd' + '.csv')
 
+    def calculateWinningsLooses(self):
+        print "Empezamos a calcular ganancias/perdidas"
+        for x in range(0, self.ui.listWidget.__len__()):
+            ifile = open('../Values/' + str(self.ui.listWidget.item(x).text()), "rb")
+            reader = csv.reader(ifile)
+            ofile = open('../Values/' + str(self.ui.listWidget.item(x).text()) + "-labeled" '.csv', "wb")
+            writer = csv.writer(ofile)
+            openValue = 0.0
+            closeValue = 0.0
+            openDate = ""
+            rownum = 0
+            for row in reader:
+                if rownum != 0:
+                    colnum = 0
+                    for col in row:
+                        if colnum == 0:
+                            openDate = str(col);
+                        if colnum == 1:
+                            openValue = float(col)
+                        if colnum == 4:
+                            closeValue = float(col)
+                        colnum += 1
+                    if openValue - closeValue > 0:
+                        writer.writerow([openDate, "+1"])  
+                    if openValue - closeValue < 0:
+                        writer.writerow([openDate, "-1"])  
+                rownum += 1
+            ifile.close()
+            ofile.close()
+        
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     myapp = StartQT4()

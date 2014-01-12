@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Fri Jan 10 19:02:17 2014
+# Created: Sun Jan 12 17:39:48 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -92,7 +92,7 @@ class Ui_MainWindow(object):
         self.widget.setGeometry(QtCore.QRect(0, 140, 281, 191))
         self.widget.setObjectName(_fromUtf8("widget"))
         self.groupBox_3 = QtGui.QGroupBox(self.tab_2)
-        self.groupBox_3.setGeometry(QtCore.QRect(390, 30, 371, 321))
+        self.groupBox_3.setGeometry(QtCore.QRect(390, 30, 371, 131))
         self.groupBox_3.setObjectName(_fromUtf8("groupBox_3"))
         self.PlotVolumeButton = QtGui.QPushButton(self.groupBox_3)
         self.PlotVolumeButton.setGeometry(QtCore.QRect(30, 30, 191, 27))
@@ -100,12 +100,36 @@ class Ui_MainWindow(object):
         self.PlotCandlesButton = QtGui.QPushButton(self.groupBox_3)
         self.PlotCandlesButton.setGeometry(QtCore.QRect(30, 70, 191, 27))
         self.PlotCandlesButton.setObjectName(_fromUtf8("PlotCandlesButton"))
+        self.groupBox_4 = QtGui.QGroupBox(self.tab_2)
+        self.groupBox_4.setGeometry(QtCore.QRect(390, 210, 371, 131))
+        self.groupBox_4.setObjectName(_fromUtf8("groupBox_4"))
+        self.spinBox = QtGui.QSpinBox(self.groupBox_4)
+        self.spinBox.setGeometry(QtCore.QRect(30, 60, 60, 27))
+        self.spinBox.setObjectName(_fromUtf8("spinBox"))
+        self.comboBox_2 = QtGui.QComboBox(self.groupBox_4)
+        self.comboBox_2.setGeometry(QtCore.QRect(150, 60, 78, 27))
+        self.comboBox_2.setObjectName(_fromUtf8("comboBox_2"))
+        self.comboBox_2.addItem(_fromUtf8(""))
+        self.comboBox_2.addItem(_fromUtf8(""))
+        self.comboBox_2.addItem(_fromUtf8(""))
+        self.getTrainingButtonMod = QtGui.QPushButton(self.groupBox_4)
+        self.getTrainingButtonMod.setGeometry(QtCore.QRect(30, 100, 131, 27))
+        self.getTrainingButtonMod.setObjectName(_fromUtf8("getTrainingButtonMod"))
+        self.addToPortfolioButton = QtGui.QPushButton(self.tab_2)
+        self.addToPortfolioButton.setGeometry(QtCore.QRect(390, 380, 131, 27))
+        self.addToPortfolioButton.setObjectName(_fromUtf8("addToPortfolioButton"))
         self.tabWidget.addTab(self.tab_2, _fromUtf8(""))
         self.tab_3 = QtGui.QWidget()
         self.tab_3.setObjectName(_fromUtf8("tab_3"))
         self.graphicsView = PlotWidget(self.tab_3)
         self.graphicsView.setGeometry(QtCore.QRect(325, 31, 431, 391))
         self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
+        self.listWidget = QtGui.QListWidget(self.tab_3)
+        self.listWidget.setGeometry(QtCore.QRect(20, 30, 256, 192))
+        self.listWidget.setObjectName(_fromUtf8("listWidget"))
+        self.getLabelButton = QtGui.QPushButton(self.tab_3)
+        self.getLabelButton.setGeometry(QtCore.QRect(80, 270, 131, 27))
+        self.getLabelButton.setObjectName(_fromUtf8("getLabelButton"))
         self.tabWidget.addTab(self.tab_3, _fromUtf8(""))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
@@ -123,7 +147,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuEdit.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -145,7 +169,14 @@ class Ui_MainWindow(object):
         self.groupBox_3.setTitle(_translate("MainWindow", "Options", None))
         self.PlotVolumeButton.setText(_translate("MainWindow", "Plot Volume", None))
         self.PlotCandlesButton.setText(_translate("MainWindow", "Plot Candles", None))
+        self.groupBox_4.setTitle(_translate("MainWindow", "Group Training Set by", None))
+        self.comboBox_2.setItemText(0, _translate("MainWindow", "Day/s", None))
+        self.comboBox_2.setItemText(1, _translate("MainWindow", "Month/s", None))
+        self.comboBox_2.setItemText(2, _translate("MainWindow", "Year/s", None))
+        self.getTrainingButtonMod.setText(_translate("MainWindow", "Get Modified TS", None))
+        self.addToPortfolioButton.setText(_translate("MainWindow", "Add to Portfolio", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Training Set", None))
+        self.getLabelButton.setText(_translate("MainWindow", "Get Labels", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Portfolio", None))
         self.menuML_BenchMark.setTitle(_translate("MainWindow", "File", None))
         self.menuEdit.setTitle(_translate("MainWindow", "Edit", None))
