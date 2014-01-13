@@ -25,8 +25,6 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.TrainButton, QtCore.SIGNAL("clicked()"), self.file_dialog)
         QtCore.QObject.connect(self.ui.PlotVolumeButton, QtCore.SIGNAL("clicked()"), self.plotVolume)
         QtCore.QObject.connect(self.ui.PlotCandlesButton, QtCore.SIGNAL("clicked()"), self.plotCandle)
-        self.connect(self.ui.getTrainingButton, QtCore.SIGNAL("clicked()"), self.getTrainingSet)
-        self.connect(self.ui.getTrainingButtonMod, QtCore.SIGNAL("clicked()"), self.modifyTrainingSet)
         QtCore.QObject.connect(self.ui.addToPortfolioButton, QtCore.SIGNAL("clicked()"), self.addToPortfolio)
         QtCore.QObject.connect(self.ui.getLabelButton, QtCore.SIGNAL("clicked()"), self.calculateWinningsLooses)
                 
@@ -100,6 +98,8 @@ class StartQT4(QtGui.QMainWindow):
             ofile.close()
         elif self.ui.comboBox_2.currentText() == 'Month/s':
             print "Partimos por meses"
+            mesActual = "";      
+            monthsPerGroup = self.ui.spinBox.value()      
             ofile = open('../Values/' + self.symbol + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'm' + '.csv', "wb")
             writer = csv.writer(ofile)
             for row in reader:
@@ -111,12 +111,28 @@ class StartQT4(QtGui.QMainWindow):
                     counter += 1
                     colnum = 0
                     for col in row:
-                        if counter == (self.ui.spinBox.value()*30) or rownum == rowmax:
-                            if colnum == 0:
-                                openDate = str(col);
-                            if colnum == 1:
-                                openValue = float(col)
+
+                        if colnum == 0:
+                            if mesActual != "" and mesActual != str(col).split("-")[1]:
+                                if monthsPerGroup == 1:
+                                    counter = 1
+                                    writer.writerow([openDate,openValue,highValue,lowValue,closeValue,volValue])
+                                    highValue = 0.0
+                                    lowValue = sys.float_info.max     
+                                    volValue = 0
+                                    monthsPerGroup = self.ui.spinBox.value()
+                                else:
+                                    monthsPerGroup -= 1
+                                    mesActual = str(col).split("-")[1]
+                            else:
+                                mesActual = str(col).split("-")[1]
+                        if colnum == 0:
+                            openDate = str(col)
+                        if colnum == 1:
+                            openValue = float(col)
                         if counter == 1:
+                            if colnum == 0:
+                                mesActual = str(col).split("-")[1]
                             if colnum == 4:
                                 closeValue = float(col)
                         if colnum == 2:
@@ -128,7 +144,7 @@ class StartQT4(QtGui.QMainWindow):
                         if colnum == 5:
                             volValue += int(col)
                         colnum += 1
-                    if counter == (self.ui.spinBox.value()*30) or rownum == rowmax:
+                    if rownum == rowmax:
                         counter = 0
                         writer.writerow([openDate,openValue,highValue,lowValue,closeValue,volValue])
                         highValue = 0.0
@@ -139,6 +155,8 @@ class StartQT4(QtGui.QMainWindow):
             ofile.close()
         elif self.ui.comboBox_2.currentText() == 'Year/s':
             print "Partimos por anyos"
+            anyoActual = "";      
+            yearsPerGroup = self.ui.spinBox.value()      
             ofile = open('../Values/' + self.symbol + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'y' + '.csv', "wb")
             writer = csv.writer(ofile)
             for row in reader:
@@ -150,12 +168,28 @@ class StartQT4(QtGui.QMainWindow):
                     counter += 1
                     colnum = 0
                     for col in row:
-                        if counter == (self.ui.spinBox.value()*365) or rownum == rowmax:
-                            if colnum == 0:
-                                openDate = str(col);
-                            if colnum == 1:
-                                openValue = float(col)
+
+                        if colnum == 0:
+                            if anyoActual != "" and anyoActual != str(col).split("-")[2]:
+                                if yearsPerGroup == 1:
+                                    counter = 1
+                                    writer.writerow([openDate,openValue,highValue,lowValue,closeValue,volValue])
+                                    highValue = 0.0
+                                    lowValue = sys.float_info.max     
+                                    volValue = 0
+                                    yearsPerGroup = self.ui.spinBox.value()
+                                else:
+                                    yearsPerGroup -= 1
+                                    anyoActual = str(col).split("-")[2]
+                            else:
+                                anyoActual = str(col).split("-")[2]
+                        if colnum == 0:
+                            openDate = str(col)
+                        if colnum == 1:
+                            openValue = float(col)
                         if counter == 1:
+                            if colnum == 0:
+                                anyoActual = str(col).split("-")[2]
                             if colnum == 4:
                                 closeValue = float(col)
                         if colnum == 2:
@@ -167,7 +201,7 @@ class StartQT4(QtGui.QMainWindow):
                         if colnum == 5:
                             volValue += int(col)
                         colnum += 1
-                    if counter == (self.ui.spinBox.value()*365) or rownum == rowmax:
+                    if rownum == rowmax:
                         counter = 0
                         writer.writerow([openDate,openValue,highValue,lowValue,closeValue,volValue])
                         highValue = 0.0
@@ -195,7 +229,7 @@ class StartQT4(QtGui.QMainWindow):
                         print(rownum - 1)
                         x.append(rownum - 1)
                     elif colnum == 5:
-                        y.append(int(col))
+                        y.insert(0, int(col))
                     print '%-8s: %s' % (header[colnum], col)
                     colnum += 1                     
             rownum += 1         
@@ -240,6 +274,8 @@ class StartQT4(QtGui.QMainWindow):
         plt.show()
 
     def addToPortfolio(self):
+        self.getTrainingSet()
+        self.modifyTrainingSet()
         self.symbol = str(self.ui.widget.getSymbolSelected())
         self.StartDate = self.ui.startsDate.date()
         self.EndDate = self.ui.endDate.date()
@@ -254,23 +290,20 @@ class StartQT4(QtGui.QMainWindow):
             writer = csv.writer(ofile)
             openValue = 0.0
             closeValue = 0.0
-            openDate = ""
             rownum = 0
             for row in reader:
                 if rownum != 0:
                     colnum = 0
                     for col in row:
-                        if colnum == 0:
-                            openDate = str(col);
                         if colnum == 1:
                             openValue = float(col)
                         if colnum == 4:
                             closeValue = float(col)
                         colnum += 1
                     if openValue - closeValue > 0:
-                        writer.writerow([openDate, "+1"])  
+                        writer.writerow(["+1"])  
                     if openValue - closeValue < 0:
-                        writer.writerow([openDate, "-1"])  
+                        writer.writerow(["-1"])  
                 rownum += 1
             ifile.close()
             ofile.close()
