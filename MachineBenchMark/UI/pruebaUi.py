@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Mon Jan 13 18:23:44 2014
+# Created: Tue Jan 14 13:39:15 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -102,6 +102,7 @@ class Ui_MainWindow(object):
         self.groupBox_4.setObjectName(_fromUtf8("groupBox_4"))
         self.spinBox = QtGui.QSpinBox(self.groupBox_4)
         self.spinBox.setGeometry(QtCore.QRect(30, 60, 60, 27))
+        self.spinBox.setMinimum(1)
         self.spinBox.setObjectName(_fromUtf8("spinBox"))
         self.comboBox_2 = QtGui.QComboBox(self.groupBox_4)
         self.comboBox_2.setGeometry(QtCore.QRect(150, 60, 78, 27))
@@ -116,10 +117,10 @@ class Ui_MainWindow(object):
         self.tab_3 = QtGui.QWidget()
         self.tab_3.setObjectName(_fromUtf8("tab_3"))
         self.listWidget = QtGui.QListWidget(self.tab_3)
-        self.listWidget.setGeometry(QtCore.QRect(20, 30, 256, 192))
+        self.listWidget.setGeometry(QtCore.QRect(50, 50, 256, 192))
         self.listWidget.setObjectName(_fromUtf8("listWidget"))
         self.getLabelButton = QtGui.QPushButton(self.tab_3)
-        self.getLabelButton.setGeometry(QtCore.QRect(80, 270, 131, 27))
+        self.getLabelButton.setGeometry(QtCore.QRect(100, 300, 131, 27))
         self.getLabelButton.setObjectName(_fromUtf8("getLabelButton"))
         self.groupBox_5 = QtGui.QGroupBox(self.tab_3)
         self.groupBox_5.setGeometry(QtCore.QRect(370, 32, 371, 190))
@@ -139,6 +140,19 @@ class Ui_MainWindow(object):
         self.checkBox_5 = QtGui.QCheckBox(self.groupBox_5)
         self.checkBox_5.setGeometry(QtCore.QRect(80, 130, 150, 22))
         self.checkBox_5.setObjectName(_fromUtf8("checkBox_5"))
+        self.groupBox_6 = QtGui.QGroupBox(self.tab_3)
+        self.groupBox_6.setGeometry(QtCore.QRect(370, 260, 371, 131))
+        self.groupBox_6.setObjectName(_fromUtf8("groupBox_6"))
+        self.spinBox_2 = QtGui.QSpinBox(self.groupBox_6)
+        self.spinBox_2.setGeometry(QtCore.QRect(30, 60, 60, 27))
+        self.spinBox_2.setMinimum(1)
+        self.spinBox_2.setObjectName(_fromUtf8("spinBox_2"))
+        self.comboBox_3 = QtGui.QComboBox(self.groupBox_6)
+        self.comboBox_3.setGeometry(QtCore.QRect(150, 60, 78, 27))
+        self.comboBox_3.setObjectName(_fromUtf8("comboBox_3"))
+        self.comboBox_3.addItem(_fromUtf8(""))
+        self.comboBox_3.addItem(_fromUtf8(""))
+        self.comboBox_3.addItem(_fromUtf8(""))
         self.tabWidget.addTab(self.tab_3, _fromUtf8(""))
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtGui.QStatusBar(MainWindow)
@@ -182,6 +196,10 @@ class Ui_MainWindow(object):
         self.checkBox_3.setText(_translate("MainWindow", "Highest value", None))
         self.checkBox.setText(_translate("MainWindow", "Open value", None))
         self.checkBox_5.setText(_translate("MainWindow", "Volume", None))
+        self.groupBox_6.setTitle(_translate("MainWindow", "Group by", None))
+        self.comboBox_3.setItemText(0, _translate("MainWindow", "Day/s", None))
+        self.comboBox_3.setItemText(1, _translate("MainWindow", "Month/s", None))
+        self.comboBox_3.setItemText(2, _translate("MainWindow", "Year/s", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Portfolio", None))
         self.actionSalir.setText(_translate("MainWindow", "Salir", None))
 
