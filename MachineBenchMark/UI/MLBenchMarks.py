@@ -286,6 +286,9 @@ class StartQT4(QtGui.QMainWindow):
         for x in range(0, self.ui.listWidget.__len__()):
             ifile = open('../Values/' + str(self.ui.listWidget.item(x).text()), "rb")
             reader = csv.reader(ifile)
+            rowmax = len(list(reader))
+            ifile = open('../Values/' + str(self.ui.listWidget.item(x).text()), "rb")
+            reader = csv.reader(ifile)
             ofile = open('../Values/' + str(self.ui.listWidget.item(x).text()) + "-labeled" '.csv', "wb")
             openValue = 0.0
             closeValue = 0.0
@@ -294,12 +297,37 @@ class StartQT4(QtGui.QMainWindow):
             volume = 0
             prevOpenValue = 0.0
             prevCloseValue = 0.0
-            rownum = 0
+            rownum = 1
+            actualMonth = ""
+            actualYear = ""
+            month = ""
+            year = ""
+            dateCounter = 0
+            lineToWrite = ""
+            counter = 0
+            storedLines = 0
+            lineOpenValue = 0.0
+            lineCloseValue = 0.0
+            if self.ui.checkBox.isChecked():
+                lineToWrite += "Open Value,"
+            if self.ui.checkBox_2.isChecked():
+                lineToWrite += "Close Value,"
+            if self.ui.checkBox_3.isChecked():
+                lineToWrite += "Highest Value,"
+            if self.ui.checkBox_4.isChecked():
+                lineToWrite += "Lowest Value,"
+            if self.ui.checkBox_5.isChecked():
+                lineToWrite += "Volume Value,"
+            lineToWrite += "Label\n"
+            ofile.write(lineToWrite)  
             lineToWrite = ""
             for row in reader:
-                if rownum != 0:
+                if rownum != 1:
                     colnum = 0
                     for col in row:
+                        if colnum == 0:
+                            month = str(col).split("-")[1]
+                            year = str(col).split("-")[2]
                         if colnum == 1:
                             openValue = float(col)
                         if colnum == 2:
@@ -311,40 +339,133 @@ class StartQT4(QtGui.QMainWindow):
                         if colnum == 5:
                             volume = float(col)
                         colnum += 1
-                    if rownum == 1:
-                        if self.ui.checkBox.isChecked():
-                            lineToWrite += "Open Value,"
-                        if self.ui.checkBox_2.isChecked():
-                            lineToWrite += "Close Value,"
-                        if self.ui.checkBox_3.isChecked():
-                            lineToWrite += "Highest Value,"
-                        if self.ui.checkBox_4.isChecked():
-                            lineToWrite += "Lowest Value,"
-                        if self.ui.checkBox_5.isChecked():
-                            lineToWrite += "Volume Value,"
-                        lineToWrite += "Label\n"
-                        ofile.write(lineToWrite)  
-                        prevOpenValue = openValue
-                        prevCloseValue = closeValue
-                        lineToWrite = ""
+                    
+                    counter += 1
+                    if self.ui.comboBox_3.currentText() == 'Month/s':
+                        if actualMonth == "":
+                            actualMonth = month
+                        elif actualMonth != month:
+                            dateCounter += 1
+                            actualMonth = month
+                    elif self.ui.comboBox_3.currentText() == 'Year/s':
+                        if actualYear == "":
+                            actualYear = year
+                        elif actualYear != year:
+                            dateCounter += 1
+                            actualYear = year;
+                    
+                    if storedLines == 0:
+                        if counter == 1:
+                            prevOpenValue = openValue
+                        if self.ui.comboBox_3.currentText() == 'Day/s': 
+                            if counter == self.ui.spinBox_2.value() or rownum == rowmax:
+                                prevCloseValue = closeValue
+                                storedLines = 1
+                                counter = 0
+                        else:
+                            if dateCounter == self.ui.spinBox_2.value() or rownum == rowmax:
+                                storedLines = 1
+                                dateCounter = 0
+                                counter = 0
+                                check = 0
+                                if self.ui.checkBox.isChecked():
+                                    lineToWrite += str(openValue)
+                                    check = 1
+                                if self.ui.checkBox_2.isChecked():
+                                    lineToWrite += "," + str(closeValue)
+                                    check = 1
+                                if self.ui.checkBox_3.isChecked():
+                                    lineToWrite += "," + str(highValue)
+                                    check = 1
+                                if self.ui.checkBox_4.isChecked():
+                                    lineToWrite += "," + str(lowValue)
+                                    check = 1
+                                if self.ui.checkBox_5.isChecked():
+                                    lineToWrite += "," + str(volume)
+                                    check = 1
+                                if check == 1:
+                                    lineToWrite += ";"
+                                lineCloseValue = closeValue
+                            else:
+                                prevCloseValue = closeValue
+
                     else:
-                        if self.ui.checkBox.isChecked():
-                            lineToWrite += str(openValue) + ","
-                        if self.ui.checkBox_2.isChecked():
-                            lineToWrite += str(closeValue) + ","
-                        if self.ui.checkBox_3.isChecked():
-                            lineToWrite += str(highValue) + ","
-                        if self.ui.checkBox_4.isChecked():
-                            lineToWrite += str(lowValue) + ","
-                        if self.ui.checkBox_5.isChecked():
-                            lineToWrite += str(volume) + ","
-                        if prevOpenValue - prevCloseValue > 0:
-                            ofile.write(lineToWrite+"-1\n")  
-                        if prevOpenValue - prevCloseValue < 0:
-                            ofile.write(lineToWrite+"+1\n")
-                        prevOpenValue = openValue
-                        prevCloseValue = closeValue
-                        lineToWrite = ""
+                        if self.ui.comboBox_3.currentText() == 'Day/s':
+                            check = 0
+                            if self.ui.checkBox.isChecked():
+                                lineToWrite += str(openValue)
+                                check = 1
+                            if self.ui.checkBox_2.isChecked():
+                                lineToWrite += "," + str(closeValue)
+                                check = 1
+                            if self.ui.checkBox_3.isChecked():
+                                lineToWrite += "," + str(highValue)
+                                check = 1
+                            if self.ui.checkBox_4.isChecked():
+                                lineToWrite += "," + str(lowValue)
+                                check = 1
+                            if self.ui.checkBox_5.isChecked():
+                                lineToWrite += "," + str(volume)
+                                check = 1
+                            
+                            if check == 1:
+                                if counter < self.ui.spinBox_2.value():
+                                    lineToWrite += ";"
+
+                        
+                        if counter == 1:
+                            lineOpenValue = openValue
+                        
+                        if self.ui.comboBox_3.currentText() == 'Day/s':
+                            if counter == self.ui.spinBox_2.value() or rownum == rowmax:
+                                lineCloseValue = closeValue
+                                if prevOpenValue - prevCloseValue > 0:
+                                    ofile.write(lineToWrite+":-1\n")  
+                                elif prevOpenValue - prevCloseValue < 0:
+                                    ofile.write(lineToWrite+":+1\n") 
+                                prevOpenValue = lineOpenValue
+                                prevCloseValue = lineCloseValue
+                                lineToWrite = ""
+                                counter = 0
+                        else:
+                            if dateCounter == self.ui.spinBox_2.value():
+                                if prevOpenValue - prevCloseValue > 0:
+                                    ofile.write(lineToWrite+":-1\n")  
+                                elif prevOpenValue - prevCloseValue < 0:
+                                    ofile.write(lineToWrite+":+1\n") 
+                                prevOpenValue = lineOpenValue
+                                prevCloseValue = lineCloseValue
+                                lineOpenValue = openValue
+                                lineCloseValue = closeValue
+                                lineToWrite = ""
+                                dateCounter = 0;
+                                counter = 1
+                            
+                            check = 0
+                            if counter != 1:
+                                lineToWrite += ";"
+                            if self.ui.checkBox.isChecked():
+                                lineToWrite += str(openValue)
+                                check = 1
+                            if self.ui.checkBox_2.isChecked():
+                                lineToWrite += "," + str(closeValue)
+                                check = 1
+                            if self.ui.checkBox_3.isChecked():
+                                lineToWrite += "," + str(highValue)
+                                check = 1
+                            if self.ui.checkBox_4.isChecked():
+                                lineToWrite += "," + str(lowValue)
+                                check = 1
+                            if self.ui.checkBox_5.isChecked():
+                                lineToWrite += "," + str(volume)
+                                check = 1
+                            lineCloseValue = closeValue
+                                    
+                            if rownum == rowmax:
+                                if prevOpenValue - prevCloseValue > 0:
+                                    ofile.write(lineToWrite+":-1\n")  
+                                elif prevOpenValue - prevCloseValue < 0:
+                                    ofile.write(lineToWrite+":+1\n") 
                 rownum += 1
             ifile.close()
             ofile.close()

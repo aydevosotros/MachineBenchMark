@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Tue Jan 14 13:39:15 2014
+# Created: Tue Jan 14 19:24:35 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -74,6 +74,7 @@ class Ui_MainWindow(object):
         self.groupBox_2.setObjectName(_fromUtf8("groupBox_2"))
         self.startsDate = QtGui.QDateEdit(self.groupBox_2)
         self.startsDate.setGeometry(QtCore.QRect(130, 50, 110, 27))
+        self.startsDate.setDate(QtCore.QDate(2010, 10, 1))
         self.startsDate.setObjectName(_fromUtf8("startsDate"))
         self.label_3 = QtGui.QLabel(self.groupBox_2)
         self.label_3.setGeometry(QtCore.QRect(20, 60, 66, 17))
@@ -83,7 +84,7 @@ class Ui_MainWindow(object):
         self.label_4.setObjectName(_fromUtf8("label_4"))
         self.endDate = QtGui.QDateEdit(self.groupBox_2)
         self.endDate.setGeometry(QtCore.QRect(130, 90, 110, 27))
-        self.endDate.setDate(QtCore.QDate(2012, 1, 1))
+        self.endDate.setDate(QtCore.QDate(2013, 12, 1))
         self.endDate.setObjectName(_fromUtf8("endDate"))
         self.widget = Ui_SymbolSearchWidget(self.groupBox_2)
         self.widget.setGeometry(QtCore.QRect(0, 140, 281, 191))
@@ -162,7 +163,7 @@ class Ui_MainWindow(object):
         self.actionSalir.setObjectName(_fromUtf8("actionSalir"))
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
