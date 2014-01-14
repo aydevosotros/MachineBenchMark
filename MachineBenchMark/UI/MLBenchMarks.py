@@ -287,27 +287,69 @@ class StartQT4(QtGui.QMainWindow):
             ifile = open('../Values/' + str(self.ui.listWidget.item(x).text()), "rb")
             reader = csv.reader(ifile)
             ofile = open('../Values/' + str(self.ui.listWidget.item(x).text()) + "-labeled" '.csv', "wb")
-            writer = csv.writer(ofile)
             openValue = 0.0
             closeValue = 0.0
+            highValue = 0.0
+            lowValue = 0.0
+            volume = 0
+            prevOpenValue = 0.0
+            prevCloseValue = 0.0
             rownum = 0
+            lineToWrite = ""
             for row in reader:
                 if rownum != 0:
                     colnum = 0
                     for col in row:
                         if colnum == 1:
                             openValue = float(col)
+                        if colnum == 2:
+                            highValue = float(col)
+                        if colnum == 3:
+                            lowValue = float(col)
                         if colnum == 4:
                             closeValue = float(col)
+                        if colnum == 5:
+                            volume = float(col)
                         colnum += 1
-                    if openValue - closeValue > 0:
-                        writer.writerow(["+1"])  
-                    if openValue - closeValue < 0:
-                        writer.writerow(["-1"])  
+                    if rownum == 1:
+                        if self.ui.checkBox.isChecked():
+                            lineToWrite += "Open Value,"
+                        if self.ui.checkBox_2.isChecked():
+                            lineToWrite += "Close Value,"
+                        if self.ui.checkBox_3.isChecked():
+                            lineToWrite += "Highest Value,"
+                        if self.ui.checkBox_4.isChecked():
+                            lineToWrite += "Lowest Value,"
+                        if self.ui.checkBox_5.isChecked():
+                            lineToWrite += "Volume Value,"
+                        lineToWrite += "Label\n"
+                        ofile.write(lineToWrite)  
+                        prevOpenValue = openValue
+                        prevCloseValue = closeValue
+                        lineToWrite = ""
+                    else:
+                        if self.ui.checkBox.isChecked():
+                            lineToWrite += str(openValue) + ","
+                        if self.ui.checkBox_2.isChecked():
+                            lineToWrite += str(closeValue) + ","
+                        if self.ui.checkBox_3.isChecked():
+                            lineToWrite += str(highValue) + ","
+                        if self.ui.checkBox_4.isChecked():
+                            lineToWrite += str(lowValue) + ","
+                        if self.ui.checkBox_5.isChecked():
+                            lineToWrite += str(volume) + ","
+                        if prevOpenValue - prevCloseValue > 0:
+                            ofile.write(lineToWrite+"-1\n")  
+                        if prevOpenValue - prevCloseValue < 0:
+                            ofile.write(lineToWrite+"+1\n")
+                        prevOpenValue = openValue
+                        prevCloseValue = closeValue
+                        lineToWrite = ""
                 rownum += 1
             ifile.close()
             ofile.close()
         
+            
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     myapp = StartQT4()
