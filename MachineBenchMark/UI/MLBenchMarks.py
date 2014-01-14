@@ -420,9 +420,9 @@ class StartQT4(QtGui.QMainWindow):
                             if counter == self.ui.spinBox_2.value() or rownum == rowmax:
                                 lineCloseValue = closeValue
                                 if prevOpenValue - prevCloseValue > 0:
-                                    ofile.write(lineToWrite+":-1\n")  
+                                    ofile.write(lineToWrite+":+1\n")  
                                 elif prevOpenValue - prevCloseValue < 0:
-                                    ofile.write(lineToWrite+":+1\n") 
+                                    ofile.write(lineToWrite+":-1\n") 
                                 prevOpenValue = lineOpenValue
                                 prevCloseValue = lineCloseValue
                                 lineToWrite = ""
@@ -430,9 +430,9 @@ class StartQT4(QtGui.QMainWindow):
                         else:
                             if dateCounter == self.ui.spinBox_2.value():
                                 if prevOpenValue - prevCloseValue > 0:
-                                    ofile.write(lineToWrite+":-1\n")  
+                                    ofile.write(lineToWrite+":+1\n")  
                                 elif prevOpenValue - prevCloseValue < 0:
-                                    ofile.write(lineToWrite+":+1\n") 
+                                    ofile.write(lineToWrite+":-1\n") 
                                 prevOpenValue = lineOpenValue
                                 prevCloseValue = lineCloseValue
                                 lineOpenValue = openValue
@@ -463,9 +463,9 @@ class StartQT4(QtGui.QMainWindow):
                                     
                             if rownum == rowmax:
                                 if prevOpenValue - prevCloseValue > 0:
-                                    ofile.write(lineToWrite+":-1\n")  
+                                    ofile.write(lineToWrite+":+1\n")  
                                 elif prevOpenValue - prevCloseValue < 0:
-                                    ofile.write(lineToWrite+":+1\n") 
+                                    ofile.write(lineToWrite+":-1\n") 
                 rownum += 1
             ifile.close()
             ofile.close()
