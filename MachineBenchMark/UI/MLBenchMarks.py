@@ -1,5 +1,6 @@
 import sys
 import csv
+import os
 from DataMining import historicalprices
 from DataMining import SymbolsParser
 from PyQt4 import QtCore, QtGui
@@ -28,7 +29,8 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.addToPortfolioButton, QtCore.SIGNAL("clicked()"), self.addToPortfolio)
         QtCore.QObject.connect(self.ui.getLabelButton, QtCore.SIGNAL("clicked()"), self.calculateWinningsLooses)
         QtCore.QObject.connect(self.ui.crossValidationButton, QtCore.SIGNAL("clicked()"), self.createCrossFiles)
-                
+        QtCore.QObject.connect(self.ui.TrainButton, QtCore.SIGNAL("clicked()"), self.callTrainingProgram)
+        
     def file_dialog(self):
         self.ui.editor_window.setText('aaaaaaaaaa')
         
@@ -310,16 +312,18 @@ class StartQT4(QtGui.QMainWindow):
             storedLines = 0
             lineOpenValue = 0.0
             lineCloseValue = 0.0
-            if self.ui.checkBox.isChecked():
+            if self.ui.radioButton.isChecked():
                 lineToWrite += "Open Value,"
-            if self.ui.checkBox_2.isChecked():
+            if self.ui.radioButton_2.isChecked():
                 lineToWrite += "Close Value,"
-            if self.ui.checkBox_3.isChecked():
+            if self.ui.radioButton_3.isChecked():
                 lineToWrite += "Highest Value,"
-            if self.ui.checkBox_4.isChecked():
+            if self.ui.radioButton_4.isChecked():
                 lineToWrite += "Lowest Value,"
-            if self.ui.checkBox_5.isChecked():
+            if self.ui.radioButton_5.isChecked():
                 lineToWrite += "Volume Value,"
+            if self.ui.radioButton_6.isChecked():
+                lineToWrite += "Gain Value,"
             lineToWrite += "Label\n"
             ofile.write(lineToWrite)  
             lineToWrite = ""
@@ -370,20 +374,23 @@ class StartQT4(QtGui.QMainWindow):
                                 dateCounter = 0
                                 counter = 0
                                 check = 0
-                                if self.ui.checkBox.isChecked():
+                                if self.ui.radioButton.isChecked():
                                     lineToWrite += str(openValue)
                                     check = 1
-                                if self.ui.checkBox_2.isChecked():
-                                    lineToWrite += "," + str(closeValue)
+                                if self.ui.radioButton_2.isChecked():
+                                    lineToWrite += str(closeValue)
                                     check = 1
-                                if self.ui.checkBox_3.isChecked():
-                                    lineToWrite += "," + str(highValue)
+                                if self.ui.radioButton_3.isChecked():
+                                    lineToWrite += str(highValue)
                                     check = 1
-                                if self.ui.checkBox_4.isChecked():
-                                    lineToWrite += "," + str(lowValue)
+                                if self.ui.radioButton_4.isChecked():
+                                    lineToWrite += str(lowValue)
                                     check = 1
-                                if self.ui.checkBox_5.isChecked():
-                                    lineToWrite += "," + str(volume)
+                                if self.ui.radioButton_5.isChecked():
+                                    lineToWrite += str(volume)
+                                    check = 1
+                                if self.ui.radioButton_6.isChecked():
+                                    lineToWrite += str(closeValue-openValue)
                                     check = 1
                                 if check == 1:
                                     lineToWrite += ";"
@@ -394,20 +401,23 @@ class StartQT4(QtGui.QMainWindow):
                     else:
                         if self.ui.comboBox_3.currentText() == 'Day/s':
                             check = 0
-                            if self.ui.checkBox.isChecked():
+                            if self.ui.radioButton.isChecked():
                                 lineToWrite += str(openValue)
                                 check = 1
-                            if self.ui.checkBox_2.isChecked():
-                                lineToWrite += "," + str(closeValue)
+                            if self.ui.radioButton_2.isChecked():
+                                lineToWrite += str(closeValue)
                                 check = 1
-                            if self.ui.checkBox_3.isChecked():
-                                lineToWrite += "," + str(highValue)
+                            if self.ui.radioButton_3.isChecked():
+                                lineToWrite += str(highValue)
                                 check = 1
-                            if self.ui.checkBox_4.isChecked():
-                                lineToWrite += "," + str(lowValue)
+                            if self.ui.radioButton_4.isChecked():
+                                lineToWrite += str(lowValue)
                                 check = 1
-                            if self.ui.checkBox_5.isChecked():
-                                lineToWrite += "," + str(volume)
+                            if self.ui.radioButton_5.isChecked():
+                                lineToWrite += str(volume)
+                                check = 1
+                            if self.ui.radioButton_6.isChecked():
+                                lineToWrite += str(closeValue-openValue)
                                 check = 1
                             
                             if check == 1:
@@ -422,9 +432,9 @@ class StartQT4(QtGui.QMainWindow):
                             if counter == self.ui.spinBox_2.value() or rownum == rowmax:
                                 lineCloseValue = closeValue
                                 if prevOpenValue - prevCloseValue > 0:
-                                    ofile.write(lineToWrite+":+1\n")  
+                                    ofile.write(lineToWrite+"\n+1\n")  
                                 elif prevOpenValue - prevCloseValue < 0:
-                                    ofile.write(lineToWrite+":-1\n") 
+                                    ofile.write(lineToWrite+"\n-1\n") 
                                 prevOpenValue = lineOpenValue
                                 prevCloseValue = lineCloseValue
                                 lineToWrite = ""
@@ -432,9 +442,9 @@ class StartQT4(QtGui.QMainWindow):
                         else:
                             if dateCounter == self.ui.spinBox_2.value():
                                 if prevOpenValue - prevCloseValue > 0:
-                                    ofile.write(lineToWrite+":+1\n")  
+                                    ofile.write(lineToWrite+"\n+1\n")  
                                 elif prevOpenValue - prevCloseValue < 0:
-                                    ofile.write(lineToWrite+":-1\n") 
+                                    ofile.write(lineToWrite+"\n-1\n") 
                                 prevOpenValue = lineOpenValue
                                 prevCloseValue = lineCloseValue
                                 lineOpenValue = openValue
@@ -446,28 +456,31 @@ class StartQT4(QtGui.QMainWindow):
                             check = 0
                             if counter != 1:
                                 lineToWrite += ";"
-                            if self.ui.checkBox.isChecked():
+                            if self.ui.radioButton.isChecked():
                                 lineToWrite += str(openValue)
                                 check = 1
-                            if self.ui.checkBox_2.isChecked():
-                                lineToWrite += "," + str(closeValue)
+                            if self.ui.radioButton_2.isChecked():
+                                lineToWrite += str(closeValue)
                                 check = 1
-                            if self.ui.checkBox_3.isChecked():
-                                lineToWrite += "," + str(highValue)
+                            if self.ui.radioButton_3.isChecked():
+                                lineToWrite += str(highValue)
                                 check = 1
-                            if self.ui.checkBox_4.isChecked():
-                                lineToWrite += "," + str(lowValue)
+                            if self.ui.radioButton_4.isChecked():
+                                lineToWrite += str(lowValue)
                                 check = 1
-                            if self.ui.checkBox_5.isChecked():
-                                lineToWrite += "," + str(volume)
+                            if self.ui.radioButton_5.isChecked():
+                                lineToWrite += str(volume)
+                                check = 1
+                            if self.ui.radioButton_6.isChecked():
+                                lineToWrite += str(closeValue-openValue)
                                 check = 1
                             lineCloseValue = closeValue
                                     
                             if rownum == rowmax:
                                 if prevOpenValue - prevCloseValue > 0:
-                                    ofile.write(lineToWrite+":+1\n")  
+                                    ofile.write(lineToWrite+"\n+1\n")  
                                 elif prevOpenValue - prevCloseValue < 0:
-                                    ofile.write(lineToWrite+":-1\n") 
+                                    ofile.write(lineToWrite+"\n-1\n") 
                 rownum += 1
             ifile.close()
             ofile.close()
@@ -484,9 +497,14 @@ class StartQT4(QtGui.QMainWindow):
         num_lineas = len(list(reader)) - 1
         ifile = open('../Values/' + trainingFile, "rb")
         reader = csv.reader(ifile)
+
+        num_lineas = num_lineas / 2
         
         #calculamos el numero de lineas para cada fichero
         num_lineas_training = int((num_lineas*self.num_training)/100)
+        
+        num_lineas = num_lineas * 2
+        num_lineas_training = num_lineas_training * 2
         
         #creamos el fichero training para meter todas las lineas
         ofile = open('../Values/' + trainingFile + '-Training' + '.csv', "wb")
@@ -510,6 +528,9 @@ class StartQT4(QtGui.QMainWindow):
                 
         ofile.close()
             
+    def callTrainingProgram(self):
+        os.system("ls -l")
+        
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     myapp = StartQT4()
