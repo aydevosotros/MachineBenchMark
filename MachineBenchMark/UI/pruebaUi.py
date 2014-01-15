@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Tue Jan 14 19:24:35 2014
+# Created: Wed Jan 15 11:18:41 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -66,6 +66,24 @@ class Ui_MainWindow(object):
         self.doubleSpinBox.setDecimals(4)
         self.doubleSpinBox.setSingleStep(0.1)
         self.doubleSpinBox.setObjectName(_fromUtf8("doubleSpinBox"))
+        self.groupBox_7 = QtGui.QGroupBox(self.tab)
+        self.groupBox_7.setGeometry(QtCore.QRect(330, 20, 401, 391))
+        self.groupBox_7.setObjectName(_fromUtf8("groupBox_7"))
+        self.labeledFilesWidget = QtGui.QListWidget(self.groupBox_7)
+        self.labeledFilesWidget.setGeometry(QtCore.QRect(70, 40, 256, 192))
+        self.labeledFilesWidget.setObjectName(_fromUtf8("labeledFilesWidget"))
+        self.crossValidationPercent = QtGui.QSpinBox(self.groupBox_7)
+        self.crossValidationPercent.setGeometry(QtCore.QRect(110, 260, 60, 27))
+        self.crossValidationPercent.setMinimum(0)
+        self.crossValidationPercent.setMaximum(100)
+        self.crossValidationPercent.setProperty("value", 60)
+        self.crossValidationPercent.setObjectName(_fromUtf8("crossValidationPercent"))
+        self.label_5 = QtGui.QLabel(self.groupBox_7)
+        self.label_5.setGeometry(QtCore.QRect(200, 260, 123, 27))
+        self.label_5.setObjectName(_fromUtf8("label_5"))
+        self.crossValidationButton = QtGui.QPushButton(self.groupBox_7)
+        self.crossValidationButton.setGeometry(QtCore.QRect(150, 320, 98, 27))
+        self.crossValidationButton.setObjectName(_fromUtf8("crossValidationButton"))
         self.tabWidget.addTab(self.tab, _fromUtf8(""))
         self.tab_2 = QtGui.QWidget()
         self.tab_2.setObjectName(_fromUtf8("tab_2"))
@@ -163,7 +181,7 @@ class Ui_MainWindow(object):
         self.actionSalir.setObjectName(_fromUtf8("actionSalir"))
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -177,6 +195,9 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Training Set", None))
         self.pushButton.setText(_translate("MainWindow", "Search", None))
         self.label_2.setText(_translate("MainWindow", "Regularization", None))
+        self.groupBox_7.setTitle(_translate("MainWindow", "Cross Validation", None))
+        self.label_5.setText(_translate("MainWindow", "Training %", None))
+        self.crossValidationButton.setText(_translate("MainWindow", "Create CV", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Machine settings", None))
         self.groupBox_2.setTitle(_translate("MainWindow", "Training Set Parameters", None))
         self.label_3.setText(_translate("MainWindow", "Starts at:", None))

@@ -27,6 +27,7 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.PlotCandlesButton, QtCore.SIGNAL("clicked()"), self.plotCandle)
         QtCore.QObject.connect(self.ui.addToPortfolioButton, QtCore.SIGNAL("clicked()"), self.addToPortfolio)
         QtCore.QObject.connect(self.ui.getLabelButton, QtCore.SIGNAL("clicked()"), self.calculateWinningsLooses)
+        QtCore.QObject.connect(self.ui.crossValidationButton, QtCore.SIGNAL("clicked()"), self.createCrossFiles)
                 
     def file_dialog(self):
         self.ui.editor_window.setText('aaaaaaaaaa')
@@ -41,10 +42,10 @@ class StartQT4(QtGui.QMainWindow):
         # Pinto los datos
                 
     def modifyTrainingSet(self):
-        self.symbol = str(self.ui.widget.getSymbolSelected())
+        self.trainingFile = str(self.ui.widget.getSymbolSelected())
         self.StartDate = self.ui.startsDate.date()
         self.EndDate = self.ui.endDate.date()
-        ifile = open('../Values/' + self.symbol + '.csv', "rb")
+        ifile = open('../Values/' + self.trainingFile + '.csv', "rb")
         reader = csv.reader(ifile)
         rownum = 1
         counter = 0
@@ -55,11 +56,11 @@ class StartQT4(QtGui.QMainWindow):
         lowValue = sys.float_info.max
         volValue = 0
         rowmax = len(list(reader))
-        ifile = open('../Values/' + self.symbol + '.csv', "rb")
+        ifile = open('../Values/' + self.trainingFile + '.csv', "rb")
         reader = csv.reader(ifile)
         if self.ui.comboBox_2.currentText() == 'Day/s':
             print "Partimos por dias"
-            ofile = open('../Values/' + self.symbol + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'd' + '.csv', "wb")
+            ofile = open('../Values/' + self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'd' + '.csv', "wb")
             writer = csv.writer(ofile)
             for row in reader:
                 # Save header row.
@@ -100,7 +101,7 @@ class StartQT4(QtGui.QMainWindow):
             print "Partimos por meses"
             mesActual = "";      
             monthsPerGroup = self.ui.spinBox.value()      
-            ofile = open('../Values/' + self.symbol + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'm' + '.csv', "wb")
+            ofile = open('../Values/' + self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'm' + '.csv', "wb")
             writer = csv.writer(ofile)
             for row in reader:
                 # Save header row.
@@ -157,7 +158,7 @@ class StartQT4(QtGui.QMainWindow):
             print "Partimos por anyos"
             anyoActual = "";      
             yearsPerGroup = self.ui.spinBox.value()      
-            ofile = open('../Values/' + self.symbol + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'y' + '.csv', "wb")
+            ofile = open('../Values/' + self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'y' + '.csv', "wb")
             writer = csv.writer(ofile)
             for row in reader:
                 # Save header row.
@@ -212,8 +213,8 @@ class StartQT4(QtGui.QMainWindow):
             ofile.close()
     
     def plotVolume(self):
-        self.symbol = str(self.ui.widget.getSymbolSelected())
-        ifile = open('../Values/' + self.symbol + '.csv', "rb")
+        self.trainingFile = str(self.ui.widget.getSymbolSelected())
+        ifile = open('../Values/' + self.trainingFile + '.csv', "rb")
         reader = csv.reader(ifile)
         x = []
         y = []
@@ -242,7 +243,7 @@ class StartQT4(QtGui.QMainWindow):
         # (Year, month, day) tuples suffice as args for quotes_historical_yahoo
         self.StartDate = self.ui.startsDate.date()
         self.EndDate = self.ui.endDate.date()
-        self.symbol = str(self.ui.widget.getSymbolSelected())
+        self.trainingFile = str(self.ui.widget.getSymbolSelected())
         date1 = ( self.StartDate.year(), self.StartDate.month(), self.StartDate.day())
         date2 = ( self.EndDate.year(), self.EndDate.month(), self.EndDate.day())
         
@@ -252,7 +253,7 @@ class StartQT4(QtGui.QMainWindow):
         weekFormatter = DateFormatter('%b %d')  # e.g., Jan 12
         dayFormatter = DateFormatter('%d')      # e.g., 12
         
-        quotes = quotes_historical_yahoo(self.symbol, date1, date2)
+        quotes = quotes_historical_yahoo(self.trainingFile, date1, date2)
         
         if len(quotes) == 0:
             raise SystemExit
@@ -276,14 +277,15 @@ class StartQT4(QtGui.QMainWindow):
     def addToPortfolio(self):
         self.getTrainingSet()
         self.modifyTrainingSet()
-        self.symbol = str(self.ui.widget.getSymbolSelected())
+        self.trainingFile = str(self.ui.widget.getSymbolSelected())
         self.StartDate = self.ui.startsDate.date()
         self.EndDate = self.ui.endDate.date()
-        self.ui.listWidget.addItem(self.symbol + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'd' + '.csv')
+        self.ui.listWidget.addItem(self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'd' + '.csv')
 
     def calculateWinningsLooses(self):
         print "Empezamos a calcular ganancias/perdidas"
         for x in range(0, self.ui.listWidget.__len__()):
+            self.ui.labeledFilesWidget.addItem(str(self.ui.listWidget.item(x).text()) + "-labeled" '.csv')
             ifile = open('../Values/' + str(self.ui.listWidget.item(x).text()), "rb")
             reader = csv.reader(ifile)
             rowmax = len(list(reader))
@@ -469,7 +471,44 @@ class StartQT4(QtGui.QMainWindow):
                 rownum += 1
             ifile.close()
             ofile.close()
+
+    def createCrossFiles(self):
+        #almacenamos las 2 variables
+        trainingFile = str(self.ui.labeledFilesWidget.currentItem().text())
+        print trainingFile
+        self.num_training = self.ui.crossValidationPercent.value()
         
+        #abrimos el fichero y almacenamos el numero de lineas y las lineas y lo recargamos
+        ifile = open('../Values/' + trainingFile, "rb")
+        reader = csv.reader(ifile)
+        num_lineas = len(list(reader)) - 1
+        ifile = open('../Values/' + trainingFile, "rb")
+        reader = csv.reader(ifile)
+        
+        #calculamos el numero de lineas para cada fichero
+        num_lineas_training = int((num_lineas*self.num_training)/100)
+        
+        #creamos el fichero training para meter todas las lineas
+        ofile = open('../Values/' + trainingFile + '-Training' + '.csv', "wb")
+        writer = csv.writer(ofile)
+        
+        #vamos poniendo las lineas
+        num_lineas_insertadas = 0;
+        rownum = 1
+        for row in reader:
+            if rownum != 1:
+                if num_lineas_insertadas == num_lineas_training:
+                    ofile.close()
+                
+                    #creamos el fichero test y vamos poniendo las lineas
+                    ofile = open('../Values/' + trainingFile + ' - Test' + '.csv', "wb")
+                writer = csv.writer(ofile)
+                #introducir la linea adecuada
+                writer.writerow(row)
+                num_lineas_insertadas += 1
+            rownum += 1
+                
+        ofile.close()
             
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
