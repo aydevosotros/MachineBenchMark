@@ -55,36 +55,6 @@
       <property name="title">
        <string>Machine parameters</string>
       </property>
-      <widget class="QComboBox" name="comboBox">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>50</y>
-         <width>231</width>
-         <height>27</height>
-        </rect>
-       </property>
-       <item>
-        <property name="text">
-         <string>Linear Regression</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Logistic Regression</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Neural Network</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>SVM</string>
-        </property>
-       </item>
-      </widget>
       <widget class="QGroupBox" name="groupBox_8">
        <property name="geometry">
         <rect>
@@ -95,7 +65,7 @@
         </rect>
        </property>
        <property name="title">
-        <string>Variables</string>
+        <string/>
        </property>
        <widget class="QSplitter" name="splitter">
         <property name="geometry">
@@ -149,9 +119,36 @@
          </property>
         </widget>
        </widget>
-       <zorder>splitter</zorder>
-       <zorder>groupBox_9</zorder>
-       <zorder>splitter_2</zorder>
+      </widget>
+      <widget class="QComboBox" name="comboBox">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>100</y>
+         <width>231</width>
+         <height>27</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string>Linear Regression</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Logistic Regression</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Neural Network</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>SVM</string>
+        </property>
+       </item>
       </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_7">

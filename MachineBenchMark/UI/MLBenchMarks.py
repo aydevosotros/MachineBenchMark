@@ -22,6 +22,7 @@ class StartQT4(QtGui.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.widget.setupUi(self.ui.widget)
+        self.changeMachineParameters()
         # here we connect signals with our slots
         QtCore.QObject.connect(self.ui.PlotVolumeButton, QtCore.SIGNAL("clicked()"), self.plotVolume)
         QtCore.QObject.connect(self.ui.PlotCandlesButton, QtCore.SIGNAL("clicked()"), self.plotCandle)
@@ -29,7 +30,17 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.getLabelButton, QtCore.SIGNAL("clicked()"), self.calculateWinningsLooses)
         QtCore.QObject.connect(self.ui.crossValidationButton, QtCore.SIGNAL("clicked()"), self.createCrossFiles)
         QtCore.QObject.connect(self.ui.TrainButton, QtCore.SIGNAL("clicked()"), self.callTrainingProgram)
+        QtCore.QObject.connect(self.ui.comboBox, QtCore.SIGNAL("currentIndexChanged(QString)"), self.changeMachineParameters)
         
+    def changeMachineParameters(self):
+        if self.ui.comboBox.currentText() == "Linear Regression":
+            self.ui.splitter.show()
+            self.ui.splitter_2.hide()
+        elif self.ui.comboBox.currentText() == "Logistic Regression":
+            self.ui.splitter.show()
+            self.ui.splitter_2.show()
+
+
     def getTrainingSet(self):
         # Obtengo las fechas para la descarga
         self.StartDate = self.ui.startsDate.date()
