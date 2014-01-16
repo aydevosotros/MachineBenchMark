@@ -33,13 +33,21 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.comboBox, QtCore.SIGNAL("currentIndexChanged(QString)"), self.changeMachineParameters)
         
     def changeMachineParameters(self):
-        if self.ui.comboBox.currentText() == "Linear Regression":
-            self.ui.splitter.show()
+        if self.ui.comboBox.currentText() == "Logistic Regression":
+            self.ui.label_2.setText("Regularization")
+            self.ui.doubleSpinBox.show()
+            self.ui.spinBox_3.hide()
             self.ui.splitter_2.hide()
-        elif self.ui.comboBox.currentText() == "Logistic Regression":
-            self.ui.splitter.show()
-            self.ui.splitter_2.show()
-
+        elif self.ui.comboBox.currentText() == "Neural Network":
+            self.ui.label_2.setText("Regularization")
+            self.ui.doubleSpinBox.show()
+            self.ui.spinBox_3.hide()
+            self.ui.splitter_2.hide()
+        elif self.ui.comboBox.currentText() == "SVM":
+            self.ui.label_2.setText("Margin")
+            self.ui.doubleSpinBox.hide()
+            self.ui.spinBox_3.show()
+            self.ui.splitter_2.hide()
 
     def getTrainingSet(self):
         # Obtengo las fechas para la descarga
@@ -538,20 +546,30 @@ class StartQT4(QtGui.QMainWindow):
     def callTrainingProgram(self):
         machineNumber = 0
         predictOrTesting = 0
+        arguments = ""
         if self.ui.comboBox.currentText() == "Logistic Regression":
             machineNumber = 0
+        elif self.ui.comboBox.currentText() == "Neural Network":
+            machineNumber = 1
+        elif self.ui.comboBox.currentText() == "SVM":
+            machineNumber = 2
         if self.ui.comboBox_4.currentText() == "Train and Test":
             predictOrTesting = 0
         elif self.ui.comboBox_4.currentText() == "Predict":
             predictOrTesting = 1
     
-        regularization = self.ui.doubleSpinBox.value()
-        lambdaValue = self.ui.doubleSpinBox_2.value()
+        if machineNumber == 0:
+            arguments += str(self.ui.doubleSpinBox.value())
+        elif machineNumber == 1:
+            arguments += str(self.ui.doubleSpinBox.value())
+        elif machineNumber == 2:
+            arguments += str(self.ui.spinBox_3.value())
+            
         trainingFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Training' + '.csv'
         testFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Test' + '.csv'
         
-        os.system("./lgm" + " " + str(machineNumber) + " " + str(predictOrTesting) + " " + trainingFile + " " + testFile + " " + str(lambdaValue))
-        
+        os.system("./lgm" + " " + str(machineNumber) + " " + str(predictOrTesting) + " " + trainingFile + " " + testFile + " " + arguments)
+    
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     myapp = StartQT4()
