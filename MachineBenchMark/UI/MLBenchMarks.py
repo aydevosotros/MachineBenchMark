@@ -23,16 +23,12 @@ class StartQT4(QtGui.QMainWindow):
         self.ui.setupUi(self)
         self.ui.widget.setupUi(self.ui.widget)
         # here we connect signals with our slots
-        QtCore.QObject.connect(self.ui.TrainButton, QtCore.SIGNAL("clicked()"), self.file_dialog)
         QtCore.QObject.connect(self.ui.PlotVolumeButton, QtCore.SIGNAL("clicked()"), self.plotVolume)
         QtCore.QObject.connect(self.ui.PlotCandlesButton, QtCore.SIGNAL("clicked()"), self.plotCandle)
         QtCore.QObject.connect(self.ui.addToPortfolioButton, QtCore.SIGNAL("clicked()"), self.addToPortfolio)
         QtCore.QObject.connect(self.ui.getLabelButton, QtCore.SIGNAL("clicked()"), self.calculateWinningsLooses)
         QtCore.QObject.connect(self.ui.crossValidationButton, QtCore.SIGNAL("clicked()"), self.createCrossFiles)
         QtCore.QObject.connect(self.ui.TrainButton, QtCore.SIGNAL("clicked()"), self.callTrainingProgram)
-        
-    def file_dialog(self):
-        self.ui.editor_window.setText('aaaaaaaaaa')
         
     def getTrainingSet(self):
         # Obtengo las fechas para la descarga
@@ -519,7 +515,7 @@ class StartQT4(QtGui.QMainWindow):
                     ofile.close()
                 
                     #creamos el fichero test y vamos poniendo las lineas
-                    ofile = open('../Values/' + trainingFile + ' - Test' + '.csv', "wb")
+                    ofile = open('../Values/' + trainingFile + '-Test' + '.csv', "wb")
                 writer = csv.writer(ofile)
                 #introducir la linea adecuada
                 writer.writerow(row)
@@ -529,7 +525,21 @@ class StartQT4(QtGui.QMainWindow):
         ofile.close()
             
     def callTrainingProgram(self):
-        os.system("ls -l")
+        machineNumber = 0
+        predictOrTesting = 0
+        if self.ui.comboBox.currentText() == "Logistic Regression":
+            machineNumber = 0
+        if self.ui.comboBox_4.currentText() == "Train and Test":
+            predictOrTesting = 0
+        elif self.ui.comboBox_4.currentText() == "Predict":
+            predictOrTesting = 1
+    
+        regularization = self.ui.doubleSpinBox.value()
+        lambdaValue = self.ui.doubleSpinBox_2.value()
+        trainingFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Training' + '.csv'
+        testFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Test' + '.csv'
+        
+        os.system("./lgm" + " " + str(machineNumber) + " " + str(predictOrTesting) + " " + trainingFile + " " + testFile + " " + str(lambdaValue))
         
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
