@@ -6,6 +6,9 @@ from DataMining import SymbolsParser
 from PyQt4 import QtCore, QtGui
 from pruebaUi import Ui_MainWindow
 from DataMining.historicalprices import get_historical
+from PIL import Image
+from numpy import *
+
 
 import numpy as np
 import pyqtgraph as pg
@@ -294,18 +297,16 @@ class StartQT4(QtGui.QMainWindow):
         self.trainingFile = str(self.ui.widget.getSymbolSelected())
         self.StartDate = self.ui.startsDate.date()
         self.EndDate = self.ui.endDate.date()
-        self.ui.listWidget.addItem(self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'd' + '.csv')
+        if self.ui.comboBox_2.currentText() == 'Day/s':
+            self.ui.listWidget.addItem(self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'd' + '.csv')
+        elif self.ui.comboBox_2.currentText() == 'Month/s':
+            self.ui.listWidget.addItem(self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'm' + '.csv')
+        elif self.ui.comboBox_2.currentText() == 'Year/s':
+            self.ui.listWidget.addItem(self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'y' + '.csv')
 
     def calculateWinningsLooses(self):
         print "Empezamos a calcular ganancias/perdidas"
         for x in range(0, self.ui.listWidget.__len__()):
-            self.ui.labeledFilesWidget.addItem(str(self.ui.listWidget.item(x).text()) + "-labeled" '.csv')
-            ifile = open('../Values/' + str(self.ui.listWidget.item(x).text()), "rb")
-            reader = csv.reader(ifile)
-            rowmax = len(list(reader))
-            ifile = open('../Values/' + str(self.ui.listWidget.item(x).text()), "rb")
-            reader = csv.reader(ifile)
-            ofile = open('../Values/' + str(self.ui.listWidget.item(x).text()) + "-labeled" '.csv', "wb")
             openValue = 0.0
             closeValue = 0.0
             highValue = 0.0
@@ -324,19 +325,47 @@ class StartQT4(QtGui.QMainWindow):
             storedLines = 0
             lineOpenValue = 0.0
             lineCloseValue = 0.0
+            fileLabel = ""
+            fileLabel += str(self.ui.spinBox_2.value())
+            if self.ui.comboBox_3.currentText() == "Day/s":
+                fileLabel += "d"
+            elif self.ui.comboBox_3.currentText() == "Month/s":
+                fileLabel += "m"
+            elif self.ui.comboBox_3.currentText() == "Year/s":
+                fileLabel += "y"
+                
             if self.ui.radioButton.isChecked():
                 lineToWrite += "Open Value,"
+                fileLabel += "-OpenValue"
             if self.ui.radioButton_2.isChecked():
                 lineToWrite += "Close Value,"
+                fileLabel += "-CloseValue"
             if self.ui.radioButton_3.isChecked():
                 lineToWrite += "Highest Value,"
+                fileLabel += "-HighValue"
             if self.ui.radioButton_4.isChecked():
                 lineToWrite += "Lowest Value,"
+                fileLabel += "-LowValue"
             if self.ui.radioButton_5.isChecked():
                 lineToWrite += "Volume Value,"
+                fileLabel += "-VolumeValue"
             if self.ui.radioButton_6.isChecked():
                 lineToWrite += "Gain Value,"
+                fileLabel += "-GainValue"
+            if self.ui.radioButton_7.isChecked():
+                lineToWrite += "PCA Value,"
+                fileLabel += "-PCAValue"
             lineToWrite += "Label\n"
+            
+            self.ui.labeledFilesWidget.addItem(str(self.ui.listWidget.item(x).text()).split(".")[0] + "-" + fileLabel)
+            ifile = open('../Values/' + str(self.ui.listWidget.item(x).text()), "rb")
+            reader = csv.reader(ifile)
+            rowmax = len(list(reader))
+            ifile = open('../Values/' + str(self.ui.listWidget.item(x).text()), "rb")
+            reader = csv.reader(ifile)
+            ofile = open('../Values/' + str(self.ui.listWidget.item(x).text()).split(".")[0] + "-" + fileLabel, "wb")
+            
+            
             ofile.write(lineToWrite)  
             lineToWrite = ""
             for row in reader:
@@ -519,7 +548,7 @@ class StartQT4(QtGui.QMainWindow):
         num_lineas_training = num_lineas_training * 2
         
         #creamos el fichero training para meter todas las lineas
-        ofile = open('../Values/' + trainingFile + '-Training' + '.csv', "wb")
+        ofile = open('../Values/' + trainingFile + '-Training', "wb")
         writer = csv.writer(ofile)
         
         #vamos poniendo las lineas
@@ -531,7 +560,7 @@ class StartQT4(QtGui.QMainWindow):
                     ofile.close()
                 
                     #creamos el fichero test y vamos poniendo las lineas
-                    ofile = open('../Values/' + trainingFile + '-Test' + '.csv', "wb")
+                    ofile = open('../Values/' + trainingFile + '-Test', "wb")
                 writer = csv.writer(ofile)
                 #introducir la linea adecuada
                 writer.writerow(row)
@@ -565,11 +594,34 @@ class StartQT4(QtGui.QMainWindow):
             else:
                 arguments += str(1)
             
-        trainingFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Training' + '.csv'
-        testFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Test' + '.csv'
+        trainingFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Training'
+        testFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Test'
         
         os.system("./lgm" + " " + str(machineNumber) + " " + str(predictOrTesting) + " " + trainingFile + " " + testFile + " " + arguments)
     
+#     def scalation(self,sample):
+#         absolMax = sys.float_info.min;
+#             
+#         for(int i = 0; i < trainingSet.size(); i++){
+#             for(int j = 0; j < trainingSet[i].input.size(); j++){
+#                 double num = trainingSet[i].input[j];
+# 
+#                 if(num < 0){
+#                     num *= -1.0;
+#                 }
+# 
+#                 if(num > absolMax){
+#                     absolMax = num;
+#                 }
+#             }
+#         }
+# 
+#         for(int i = 0; i < trainingSet.size(); i++){
+#             for(int j = 0; j < trainingSet[i].input.size(); j++){
+#                 trainingSet[i].input[j] /= absolMax;
+#             }
+#         }
+
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     myapp = StartQT4()
