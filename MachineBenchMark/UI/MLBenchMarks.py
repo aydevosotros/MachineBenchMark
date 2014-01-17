@@ -36,18 +36,15 @@ class StartQT4(QtGui.QMainWindow):
         if self.ui.comboBox.currentText() == "Logistic Regression":
             self.ui.label_2.setText("Regularization")
             self.ui.doubleSpinBox.show()
-            self.ui.spinBox_3.hide()
-            self.ui.splitter_2.hide()
+            self.ui.comboBox_5.hide()
         elif self.ui.comboBox.currentText() == "Neural Network":
             self.ui.label_2.setText("Regularization")
             self.ui.doubleSpinBox.show()
-            self.ui.spinBox_3.hide()
-            self.ui.splitter_2.hide()
+            self.ui.comboBox_5.hide()
         elif self.ui.comboBox.currentText() == "SVM":
             self.ui.label_2.setText("Margin")
             self.ui.doubleSpinBox.hide()
-            self.ui.spinBox_3.show()
-            self.ui.splitter_2.hide()
+            self.ui.comboBox_5.show()
 
     def getTrainingSet(self):
         # Obtengo las fechas para la descarga
@@ -563,7 +560,10 @@ class StartQT4(QtGui.QMainWindow):
         elif machineNumber == 1:
             arguments += str(self.ui.doubleSpinBox.value())
         elif machineNumber == 2:
-            arguments += str(self.ui.spinBox_3.value())
+            if self.ui.comboBox_5.value() == "Soft":
+                arguments += str(0)
+            else:
+                arguments += str(1)
             
         trainingFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Training' + '.csv'
         testFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Test' + '.csv'

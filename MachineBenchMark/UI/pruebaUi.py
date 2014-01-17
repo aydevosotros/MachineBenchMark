@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Thu Jan 16 19:39:16 2014
+# Created: Fri Jan 17 18:20:34 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -55,21 +55,10 @@ class Ui_MainWindow(object):
         self.doubleSpinBox.setDecimals(4)
         self.doubleSpinBox.setSingleStep(0.1)
         self.doubleSpinBox.setObjectName(_fromUtf8("doubleSpinBox"))
-        self.spinBox_3 = QtGui.QSpinBox(self.splitter)
-        self.spinBox_3.setObjectName(_fromUtf8("spinBox_3"))
-        self.splitter_2 = QtGui.QSplitter(self.groupBox_8)
-        self.splitter_2.setGeometry(QtCore.QRect(10, 80, 201, 27))
-        self.splitter_2.setOrientation(QtCore.Qt.Horizontal)
-        self.splitter_2.setObjectName(_fromUtf8("splitter_2"))
-        self.label_6 = QtGui.QLabel(self.splitter_2)
-        self.label_6.setText(_fromUtf8(""))
-        self.label_6.setObjectName(_fromUtf8("label_6"))
-        self.doubleSpinBox_2 = QtGui.QDoubleSpinBox(self.splitter_2)
-        self.doubleSpinBox_2.setDecimals(4)
-        self.doubleSpinBox_2.setSingleStep(0.1)
-        self.doubleSpinBox_2.setObjectName(_fromUtf8("doubleSpinBox_2"))
-        self.spinBox_4 = QtGui.QSpinBox(self.splitter_2)
-        self.spinBox_4.setObjectName(_fromUtf8("spinBox_4"))
+        self.comboBox_5 = QtGui.QComboBox(self.splitter)
+        self.comboBox_5.setObjectName(_fromUtf8("comboBox_5"))
+        self.comboBox_5.addItem(_fromUtf8(""))
+        self.comboBox_5.addItem(_fromUtf8(""))
         self.comboBox = QtGui.QComboBox(self.groupBox)
         self.comboBox.setGeometry(QtCore.QRect(30, 100, 231, 27))
         self.comboBox.setObjectName(_fromUtf8("comboBox"))
@@ -212,6 +201,8 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Machine Learning BenchMarks", None))
         self.TrainButton.setText(_translate("MainWindow", "Execute", None))
         self.groupBox.setTitle(_translate("MainWindow", "Machine parameters", None))
+        self.comboBox_5.setItemText(0, _translate("MainWindow", "Soft", None))
+        self.comboBox_5.setItemText(1, _translate("MainWindow", "Hard", None))
         self.comboBox.setItemText(0, _translate("MainWindow", "Logistic Regression", None))
         self.comboBox.setItemText(1, _translate("MainWindow", "Neural Network", None))
         self.comboBox.setItemText(2, _translate("MainWindow", "SVM", None))
