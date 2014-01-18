@@ -35,7 +35,8 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.TrainButton, QtCore.SIGNAL("clicked()"), self.callTrainingProgram)
         QtCore.QObject.connect(self.ui.comboBox, QtCore.SIGNAL("currentIndexChanged(QString)"), self.changeMachineParameters)
         QtCore.QObject.connect(self.ui.pushButton_2, QtCore.SIGNAL("clicked()"), self.loadThetaValues)
-        QtCore.QObject.connect(self.ui.pushButton, QtCore.SIGNAL("clicked()"), self.predictTodayValue)     
+        QtCore.QObject.connect(self.ui.pushButton, QtCore.SIGNAL("clicked()"), self.predictTodayValue)
+        
     def changeMachineParameters(self):
         if self.ui.comboBox.currentText() == "Logistic Regression":
             self.ui.label_2.setText("Regularization")
@@ -55,9 +56,13 @@ class StartQT4(QtGui.QMainWindow):
         self.StartDate = self.ui.startsDate.date()
         self.EndDate = self.ui.endDate.date()
         self.symbol = str(self.ui.widget.getSymbolSelected())
-        get_historical(self.symbol, self.StartDate.day(), self.StartDate.month(), self.StartDate.year(), self.EndDate.day(), self.EndDate.month(), self.EndDate.year())
-        print("Archivo descargado")  
-        # Pinto los datos
+        if self.symbol == "":
+            self.statusBar().showMessage('ERROR: You cannot add to portfolio something without selecting an index')
+        else:
+            get_historical(self.symbol, self.StartDate.day(), self.StartDate.month(), self.StartDate.year(), self.EndDate.day(), self.EndDate.month(), self.EndDate.year())
+            print("Archivo descargado")
+            self.statusBar().showMessage('Index added to portfolio successfully')
+            # Pinto los datos
                 
     def modifyTrainingSet(self):
         self.trainingFile = str(self.ui.widget.getSymbolSelected())
@@ -229,65 +234,73 @@ class StartQT4(QtGui.QMainWindow):
     
     def plotVolume(self):
         self.trainingFile = str(self.ui.widget.getSymbolSelected())
-        ifile = open('../Values/' + self.trainingFile + '.csv', "rb")
-        reader = csv.reader(ifile)
-        x = []
-        y = []
-        rownum = 0
-        for row in reader:
-            # Save header row.
-            if rownum == 0:
-                header = row
-            else:
-                colnum = 0
-                for col in row:
-                    if colnum == 0:
-#                         print(rownum - 1)
-                        x.append(rownum - 1)
-                    elif colnum == 5:
-                        y.insert(0, int(col))
-#                     print '%-8s: %s' % (header[colnum], col)
-                    colnum += 1                     
-            rownum += 1         
-        ifile.close()
-        
-        plotWidget = pg.plot(title="Volume over the time")
-        plotWidget.plot(np.asarray(x), np.asarray(y), pen=(1, 3))    
+        if self.trainingFile == "":
+            self.statusBar().showMessage('ERROR: You cannot plot something without selecting an index')
+        else:
+            ifile = open('../Values/' + self.trainingFile + '.csv', "rb")
+            reader = csv.reader(ifile)
+            x = []
+            y = []
+            rownum = 0
+            for row in reader:
+                # Save header row.
+                if rownum == 0:
+                    header = row
+                else:
+                    colnum = 0
+                    for col in row:
+                        if colnum == 0:
+    #                         print(rownum - 1)
+                            x.append(rownum - 1)
+                        elif colnum == 5:
+                            y.insert(0, int(col))
+    #                     print '%-8s: %s' % (header[colnum], col)
+                        colnum += 1                     
+                rownum += 1         
+            ifile.close()
+            
+            plotWidget = pg.plot(title="Volume over the time")
+            plotWidget.plot(np.asarray(x), np.asarray(y), pen=(1, 3))
+            self.statusBar().showMessage("Volume plotted")    
 
     def plotCandle(self):
         # (Year, month, day) tuples suffice as args for quotes_historical_yahoo
         self.StartDate = self.ui.startsDate.date()
         self.EndDate = self.ui.endDate.date()
         self.trainingFile = str(self.ui.widget.getSymbolSelected())
-        date1 = ( self.StartDate.year(), self.StartDate.month(), self.StartDate.day())
-        date2 = ( self.EndDate.year(), self.EndDate.month(), self.EndDate.day())
-        
-        
-        mondays = WeekdayLocator(MONDAY)        # major ticks on the mondays
-        alldays    = DayLocator()              # minor ticks on the days
-        weekFormatter = DateFormatter('%b %d')  # e.g., Jan 12
-        dayFormatter = DateFormatter('%d')      # e.g., 12
-        
-        quotes = quotes_historical_yahoo(self.trainingFile, date1, date2)
-        
-        if len(quotes) == 0:
-            raise SystemExit
-        
-        fig, ax = plt.subplots()
-        fig.subplots_adjust(bottom=0.2)
-        ax.xaxis.set_major_locator(mondays)
-        ax.xaxis.set_minor_locator(alldays)
-        ax.xaxis.set_major_formatter(weekFormatter)
-        #ax.xaxis.set_minor_formatter(dayFormatter)
-        
-        #plot_day_summary(ax, quotes, ticksize=3)
-        candlestick(ax, quotes, width=0.6)
-        
-        ax.xaxis_date()
-        ax.autoscale_view()
-        plt.setp( plt.gca().get_xticklabels(), rotation=45, horizontalalignment='right')
-        
-        plt.show()
+        if self.trainingFile == "":
+            self.statusBar().showMessage('ERROR: You cannot plot something without selecting an index')
+        else:
+            date1 = ( self.StartDate.year(), self.StartDate.month(), self.StartDate.day())
+            date2 = ( self.EndDate.year(), self.EndDate.month(), self.EndDate.day())
+            
+            
+            mondays = WeekdayLocator(MONDAY)        # major ticks on the mondays
+            alldays    = DayLocator()              # minor ticks on the days
+            weekFormatter = DateFormatter('%b %d')  # e.g., Jan 12
+            dayFormatter = DateFormatter('%d')      # e.g., 12
+            
+            quotes = quotes_historical_yahoo(self.trainingFile, date1, date2)
+            
+            if len(quotes) == 0:
+                raise SystemExit
+            
+            fig, ax = plt.subplots()
+            fig.subplots_adjust(bottom=0.2)
+            ax.xaxis.set_major_locator(mondays)
+            ax.xaxis.set_minor_locator(alldays)
+            ax.xaxis.set_major_formatter(weekFormatter)
+            #ax.xaxis.set_minor_formatter(dayFormatter)
+            
+            #plot_day_summary(ax, quotes, ticksize=3)
+            candlestick(ax, quotes, width=0.6)
+            
+            ax.xaxis_date()
+            ax.autoscale_view()
+            plt.setp( plt.gca().get_xticklabels(), rotation=45, horizontalalignment='right')
+            
+            plt.show()
+            self.statusBar().showMessage("Candles plotted")
 
     def addToPortfolio(self):
         self.getTrainingSet()
@@ -301,6 +314,7 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.listWidget.addItem(self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'm' + '.csv')
         elif self.ui.comboBox_2.currentText() == 'Year/s':
             self.ui.listWidget.addItem(self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'y' + '.csv')
+        self.statusBar().showMessage("Labels obtained successfully")
 
     def calculateWinningsLooses(self):
         for x in range(0, self.ui.listWidget.__len__()):
@@ -525,45 +539,49 @@ class StartQT4(QtGui.QMainWindow):
 
     def createCrossFiles(self):
         #almacenamos las 2 variables
-        trainingFile = str(self.ui.labeledFilesWidget.currentItem().text())
-        self.num_training = self.ui.crossValidationPercent.value()
-        
-        #abrimos el fichero y almacenamos el numero de lineas y las lineas y lo recargamos
-        ifile = open('../Values/' + trainingFile, "rb")
-        reader = csv.reader(ifile)
-        num_lineas = len(list(reader)) - 1
-        ifile = open('../Values/' + trainingFile, "rb")
-        reader = csv.reader(ifile)
-
-        num_lineas = num_lineas / 2
-        
-        #calculamos el numero de lineas para cada fichero
-        num_lineas_training = int((num_lineas*self.num_training)/100)
-        
-        num_lineas = num_lineas * 2
-        num_lineas_training = num_lineas_training * 2
-        
-        #creamos el fichero training para meter todas las lineas
-        ofile = open('../Values/' + trainingFile + '-Training', "wb")
-        writer = csv.writer(ofile)
-        
-        #vamos poniendo las lineas
-        num_lineas_insertadas = 0;
-        rownum = 1
-        for row in reader:
-            if rownum != 1:
-                if num_lineas_insertadas == num_lineas_training:
-                    ofile.close()
-                
-                    #creamos el fichero test y vamos poniendo las lineas
-                    ofile = open('../Values/' + trainingFile + '-Test', "wb")
-                writer = csv.writer(ofile)
-                #introducir la linea adecuada
-                writer.writerow(row)
-                num_lineas_insertadas += 1
-            rownum += 1
-                
-        ofile.close()
+        if self.ui.labeledFilesWidget.currentItem() == None:
+            self.statusBar().showMessage('ERROR: You cannot create CV of something without selecting a file')
+        else:
+            trainingFile = str(self.ui.labeledFilesWidget.currentItem().text())
+            self.num_training = self.ui.crossValidationPercent.value()
+            
+            #abrimos el fichero y almacenamos el numero de lineas y las lineas y lo recargamos
+            ifile = open('../Values/' + trainingFile, "rb")
+            reader = csv.reader(ifile)
+            num_lineas = len(list(reader)) - 1
+            ifile = open('../Values/' + trainingFile, "rb")
+            reader = csv.reader(ifile)
+    
+            num_lineas = num_lineas / 2
+            
+            #calculamos el numero de lineas para cada fichero
+            num_lineas_training = int((num_lineas*self.num_training)/100)
+            
+            num_lineas = num_lineas * 2
+            num_lineas_training = num_lineas_training * 2
+            
+            #creamos el fichero training para meter todas las lineas
+            ofile = open('../Values/' + trainingFile + '-Training', "wb")
+            writer = csv.writer(ofile)
+            
+            #vamos poniendo las lineas
+            num_lineas_insertadas = 0;
+            rownum = 1
+            for row in reader:
+                if rownum != 1:
+                    if num_lineas_insertadas == num_lineas_training:
+                        ofile.close()
+                    
+                        #creamos el fichero test y vamos poniendo las lineas
+                        ofile = open('../Values/' + trainingFile + '-Test', "wb")
+                    writer = csv.writer(ofile)
+                    #introducir la linea adecuada
+                    writer.writerow(row)
+                    num_lineas_insertadas += 1
+                rownum += 1
+                    
+            ofile.close()
+            self.statusBar().showMessage("CV files created")
             
     def callTrainingProgram(self):
         machineNumber = 0
@@ -586,11 +604,15 @@ class StartQT4(QtGui.QMainWindow):
                 arguments += str(0)
             else:
                 arguments += str(1)
-            
-        trainingFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Training'
-        testFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Test'
-        os.system("./lgm" + " " + str(machineNumber) + " " + str(predictOrTesting) + " " + trainingFile + " " + testFile + " " + arguments)
-    
+                
+        if self.ui.labeledFilesWidget.currentItem() == None:
+            self.statusBar().showMessage('ERROR: You cannot test without selecting a file')
+        else:
+            trainingFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Training'
+            testFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Test'
+            os.system("./lgm" + " " + str(machineNumber) + " " + str(predictOrTesting) + " " + trainingFile + " " + testFile + " " + arguments)
+            self.statusBar().showMessage("Testing")
+
 #     def scalation(self,sample):
 #         absolMax = sys.float_info.min;
 #             
@@ -622,13 +644,17 @@ class StartQT4(QtGui.QMainWindow):
             filePath += "/NN"
         elif self.ui.comboBox_4.currentText() == "SVM":
             filePath += "/SVM"
-            
-        filePath += "/" + str(self.ui.widget_2.getSymbolSelected())
-                
-        fileList = os.listdir(filePath)
         
-        for thetaFile in fileList:
-            self.ui.listWidget_2.addItem(thetaFile)
+        if self.ui.widget_2.getSymbolSelected() == "":
+            self.statusBar().showMessage('ERROR: You cannot load a Theta file without selecting an index')
+        else:
+            filePath += "/" + str(self.ui.widget_2.getSymbolSelected())
+                    
+            fileList = os.listdir(filePath)
+            
+            for thetaFile in fileList:
+                self.ui.listWidget_2.addItem(thetaFile)
+            self.statusBar().showMessage("File loaded")
             
     def predictTodayValue(self):
         filePath = "../Values"
@@ -638,11 +664,15 @@ class StartQT4(QtGui.QMainWindow):
             filePath += "/NN"
         elif self.ui.comboBox_4.currentText() == "SVM":
             filePath += "/SVM"
-            
-        filePath += "/" + str(self.ui.widget_2.getSymbolSelected()) + "/"
-        filePath += str(self.ui.listWidget_2.currentItem().text())
         
-        print filePath
+        if self.ui.listWidget_2.currentItem() == None:
+            self.statusBar().showMessage('ERROR: You cannot predict without selecting a file')
+        else:
+            filePath += "/" + str(self.ui.widget_2.getSymbolSelected()) + "/"
+            filePath += str(self.ui.listWidget_2.currentItem().text())
+            
+            print filePath
+            self.statusBar().showMessage("Predicting")
         
         
 if __name__ == "__main__":

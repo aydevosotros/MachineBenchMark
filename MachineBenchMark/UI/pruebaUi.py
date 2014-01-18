@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Fri Jan 17 19:55:32 2014
+# Created: Sat Jan 18 17:56:07 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -26,7 +26,7 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(800, 600)
+        MainWindow.resize(800, 524)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.tabWidget = QtGui.QTabWidget(self.centralwidget)
@@ -102,6 +102,7 @@ class Ui_MainWindow(object):
         self.radioButton_3.setObjectName(_fromUtf8("radioButton_3"))
         self.radioButton = QtGui.QRadioButton(self.groupBox_5)
         self.radioButton.setGeometry(QtCore.QRect(80, 10, 150, 22))
+        self.radioButton.setChecked(True)
         self.radioButton.setObjectName(_fromUtf8("radioButton"))
         self.radioButton_5 = QtGui.QRadioButton(self.groupBox_5)
         self.radioButton_5.setGeometry(QtCore.QRect(80, 130, 150, 22))
@@ -219,7 +220,7 @@ class Ui_MainWindow(object):
         self.actionSalir.setObjectName(_fromUtf8("actionSalir"))
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(3)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
