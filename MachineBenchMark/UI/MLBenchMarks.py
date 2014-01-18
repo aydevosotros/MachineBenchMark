@@ -338,6 +338,8 @@ class StartQT4(QtGui.QMainWindow):
             lineCloseValue = 0.0
             fileLabel = ""
             fileLabel += str(self.ui.spinBox_2.value())
+            
+            inputFile = '../Values/' + str(self.ui.listWidget.item(x).text())
             if self.ui.comboBox_3.currentText() == "Day/s":
                 fileLabel += "d"
             elif self.ui.comboBox_3.currentText() == "Month/s":
@@ -366,13 +368,17 @@ class StartQT4(QtGui.QMainWindow):
             if self.ui.radioButton_7.isChecked():
                 lineToWrite += "PCA Value,"
                 fileLabel += "-PCAValue"
+            if self.ui.checkBox.isChecked():
+                self.scalation(inputFile)
+                inputFile += "-scaled"
+                
             lineToWrite += "Label\n"
             
             self.ui.labeledFilesWidget.addItem(str(self.ui.listWidget.item(x).text()).split(".")[0] + "-" + fileLabel)
-            ifile = open('../Values/' + str(self.ui.listWidget.item(x).text()), "rb")
+            ifile = open(inputFile, "rb")
             reader = csv.reader(ifile)
             rowmax = len(list(reader))
-            ifile = open('../Values/' + str(self.ui.listWidget.item(x).text()), "rb")
+            ifile = open(inputFile, "rb")
             reader = csv.reader(ifile)
             ofile = open('../Values/' + str(self.ui.listWidget.item(x).text()).split(".")[0] + "-" + fileLabel, "wb")
             
@@ -613,28 +619,54 @@ class StartQT4(QtGui.QMainWindow):
             os.system("./lgm" + " " + str(machineNumber) + " " + str(predictOrTesting) + " " + trainingFile + " " + testFile + " " + arguments)
             self.statusBar().showMessage("Testing")
 
-#     def scalation(self,sample):
-#         absolMax = sys.float_info.min;
-#             
-#         for(int i = 0; i < trainingSet.size(); i++){
-#             for(int j = 0; j < trainingSet[i].input.size(); j++){
-#                 double num = trainingSet[i].input[j];
-# 
-#                 if(num < 0){
-#                     num *= -1.0;
-#                 }
-# 
-#                 if(num > absolMax){
-#                     absolMax = num;
-#                 }
-#             }
-#         }
-# 
-#         for(int i = 0; i < trainingSet.size(); i++){
-#             for(int j = 0; j < trainingSet[i].input.size(); j++){
-#                 trainingSet[i].input[j] /= absolMax;
-#             }
-#         }
+    def scalation(self,trainingSet):
+        scaleFile = open(trainingSet, "rb")
+        reader = csv.reader(scaleFile)
+        
+        absolMax = sys.float_info.min;
+        rownum = 1
+        for row in reader:
+            if rownum != 1:
+                colnum = 1
+                for col in row:
+                    if colnum != 1:
+                        num = float(col);
+    
+                        if num < 0:
+                            num *= -1.0;
+             
+                        if num > absolMax:
+                            absolMax = num;
+                    colnum += 1
+            rownum += 1
+            
+        scaleFile = open(trainingSet, "rb")
+        reader = csv.reader(scaleFile)
+        ofile = open(trainingSet+"-scaled", "wb")
+        
+        rownum = 1
+        for row in reader:
+            lineToWrite = ""
+            colnum = 1
+            for col in row:
+                if rownum == 1:
+                    if colnum == 1:
+                        lineToWrite += str(col)
+                    else:
+                        lineToWrite += "," + str(col)
+                else:
+                    if colnum == 1:
+                        lineToWrite += str(col)
+                    else:
+                        lineToWrite += "," + str(float(col) / absolMax)
+                        
+                colnum += 1
+            lineToWrite += "\n"
+            ofile.write(lineToWrite)
+            rownum += 1
+    
+        scaleFile.close()
+        ofile.close()
 
     def loadThetaValues(self):
         filePath = "../Values"
