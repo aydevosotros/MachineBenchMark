@@ -1,8 +1,7 @@
 import sys
 import csv
 import os
-from DataMining import historicalprices
-from DataMining import SymbolsParser
+
 from PyQt4 import QtCore, QtGui
 from pruebaUi import Ui_MainWindow
 from DataMining.historicalprices import get_historical
@@ -25,6 +24,7 @@ class StartQT4(QtGui.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.widget.setupUi(self.ui.widget)
+        self.ui.widget_2.setupUi(self.ui.widget_2)
         self.changeMachineParameters()
         # here we connect signals with our slots
         QtCore.QObject.connect(self.ui.PlotVolumeButton, QtCore.SIGNAL("clicked()"), self.plotVolume)
@@ -34,7 +34,8 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.crossValidationButton, QtCore.SIGNAL("clicked()"), self.createCrossFiles)
         QtCore.QObject.connect(self.ui.TrainButton, QtCore.SIGNAL("clicked()"), self.callTrainingProgram)
         QtCore.QObject.connect(self.ui.comboBox, QtCore.SIGNAL("currentIndexChanged(QString)"), self.changeMachineParameters)
-        
+        QtCore.QObject.connect(self.ui.pushButton_2, QtCore.SIGNAL("clicked()"), self.loadThetaValues)
+        QtCore.QObject.connect(self.ui.pushButton, QtCore.SIGNAL("clicked()"), self.predictTodayValue)     
     def changeMachineParameters(self):
         if self.ui.comboBox.currentText() == "Logistic Regression":
             self.ui.label_2.setText("Regularization")
@@ -76,7 +77,6 @@ class StartQT4(QtGui.QMainWindow):
         ifile = open('../Values/' + self.trainingFile + '.csv', "rb")
         reader = csv.reader(ifile)
         if self.ui.comboBox_2.currentText() == 'Day/s':
-            print "Partimos por dias"
             ofile = open('../Values/' + self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'd' + '.csv', "wb")
             writer = csv.writer(ofile)
             for row in reader:
@@ -115,7 +115,6 @@ class StartQT4(QtGui.QMainWindow):
             ifile.close()
             ofile.close()
         elif self.ui.comboBox_2.currentText() == 'Month/s':
-            print "Partimos por meses"
             mesActual = "";      
             monthsPerGroup = self.ui.spinBox.value()      
             ofile = open('../Values/' + self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'm' + '.csv', "wb")
@@ -172,7 +171,6 @@ class StartQT4(QtGui.QMainWindow):
             ifile.close()
             ofile.close()
         elif self.ui.comboBox_2.currentText() == 'Year/s':
-            print "Partimos por anyos"
             anyoActual = "";      
             yearsPerGroup = self.ui.spinBox.value()      
             ofile = open('../Values/' + self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'y' + '.csv', "wb")
@@ -244,11 +242,11 @@ class StartQT4(QtGui.QMainWindow):
                 colnum = 0
                 for col in row:
                     if colnum == 0:
-                        print(rownum - 1)
+#                         print(rownum - 1)
                         x.append(rownum - 1)
                     elif colnum == 5:
                         y.insert(0, int(col))
-                    print '%-8s: %s' % (header[colnum], col)
+#                     print '%-8s: %s' % (header[colnum], col)
                     colnum += 1                     
             rownum += 1         
         ifile.close()
@@ -305,7 +303,6 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.listWidget.addItem(self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'y' + '.csv')
 
     def calculateWinningsLooses(self):
-        print "Empezamos a calcular ganancias/perdidas"
         for x in range(0, self.ui.listWidget.__len__()):
             openValue = 0.0
             closeValue = 0.0
@@ -529,7 +526,6 @@ class StartQT4(QtGui.QMainWindow):
     def createCrossFiles(self):
         #almacenamos las 2 variables
         trainingFile = str(self.ui.labeledFilesWidget.currentItem().text())
-        print trainingFile
         self.num_training = self.ui.crossValidationPercent.value()
         
         #abrimos el fichero y almacenamos el numero de lineas y las lineas y lo recargamos
@@ -571,7 +567,6 @@ class StartQT4(QtGui.QMainWindow):
             
     def callTrainingProgram(self):
         machineNumber = 0
-        predictOrTesting = 0
         arguments = ""
         if self.ui.comboBox.currentText() == "Logistic Regression":
             machineNumber = 0
@@ -579,24 +574,21 @@ class StartQT4(QtGui.QMainWindow):
             machineNumber = 1
         elif self.ui.comboBox.currentText() == "SVM":
             machineNumber = 2
-        if self.ui.comboBox_4.currentText() == "Train and Test":
-            predictOrTesting = 0
-        elif self.ui.comboBox_4.currentText() == "Predict":
-            predictOrTesting = 1
+            
+        predictOrTesting = 0
     
         if machineNumber == 0:
             arguments += str(self.ui.doubleSpinBox.value())
         elif machineNumber == 1:
             arguments += str(self.ui.doubleSpinBox.value())
         elif machineNumber == 2:
-            if self.ui.comboBox_5.value() == "Soft":
+            if self.ui.comboBox_5.currentText() == "Soft":
                 arguments += str(0)
             else:
                 arguments += str(1)
             
         trainingFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Training'
         testFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Test'
-        
         os.system("./lgm" + " " + str(machineNumber) + " " + str(predictOrTesting) + " " + trainingFile + " " + testFile + " " + arguments)
     
 #     def scalation(self,sample):
@@ -622,6 +614,37 @@ class StartQT4(QtGui.QMainWindow):
 #             }
 #         }
 
+    def loadThetaValues(self):
+        filePath = "../Values"
+        if self.ui.comboBox_4.currentText() == "Logistic Regression":
+            filePath += "/LR"
+        elif self.ui.comboBox_4.currentText() == "Neural Network":
+            filePath += "/NN"
+        elif self.ui.comboBox_4.currentText() == "SVM":
+            filePath += "/SVM"
+            
+        filePath += "/" + str(self.ui.widget_2.getSymbolSelected())
+                
+        fileList = os.listdir(filePath)
+        
+        for thetaFile in fileList:
+            self.ui.listWidget_2.addItem(thetaFile)
+            
+    def predictTodayValue(self):
+        filePath = "../Values"
+        if self.ui.comboBox_4.currentText() == "Logistic Regression":
+            filePath += "/LR"
+        elif self.ui.comboBox_4.currentText() == "Neural Network":
+            filePath += "/NN"
+        elif self.ui.comboBox_4.currentText() == "SVM":
+            filePath += "/SVM"
+            
+        filePath += "/" + str(self.ui.widget_2.getSymbolSelected()) + "/"
+        filePath += str(self.ui.listWidget_2.currentItem().text())
+        
+        print filePath
+        
+        
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     myapp = StartQT4()
