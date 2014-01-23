@@ -705,7 +705,7 @@ class StartQT4(QtGui.QMainWindow):
             
             print filePath
             self.statusBar().showMessage("Predicting")
-
+    
     def PCA(self, datos, k):
         sigma = (datos.T*datos)/len(datos)
         
