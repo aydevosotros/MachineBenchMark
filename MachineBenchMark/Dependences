@@ -1,0 +1,4 @@
+sudo apt-get install python-numpy python-matplotlib
+
+(pyqtgraph dependence is attached in .deb format)
+
