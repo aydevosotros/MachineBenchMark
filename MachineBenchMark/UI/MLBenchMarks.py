@@ -6,7 +6,7 @@ from PyQt4 import QtCore, QtGui
 from pruebaUi import Ui_MainWindow
 from DataMining.historicalprices import get_historical
 from PIL import Image
-from numpy import *
+import numpy as np
 
 
 import numpy as np
@@ -705,7 +705,18 @@ class StartQT4(QtGui.QMainWindow):
             
             print filePath
             self.statusBar().showMessage("Predicting")
+
+    def PCA(self, datos, k):
+        sigma = (datos.T*datos)/len(datos)
         
+        U, s, V = np.linalg.svd(sigma)
+        
+        uReduce = U[:, 0:k]    
+    
+        z = uReduce.T*datos.T
+    
+        return z
+
         
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
