@@ -1,22 +1,16 @@
-import sys
-import csv
-import os
-
 from PyQt4 import QtCore, QtGui
-from pruebaUi import Ui_MainWindow
+import csv
+from matplotlib.dates import DateFormatter, WeekdayLocator, DayLocator, MONDAY
+from matplotlib.finance import quotes_historical_yahoo, candlestick
+import os
+import sys
+
 from DataMining.historicalprices import get_historical
-from PIL import Image
+import matplotlib.pyplot as plt
 import numpy as np
-
-
-import numpy as np
+from pruebaUi import Ui_MainWindow
 import pyqtgraph as pg
 
-import matplotlib.pyplot as plt
-from matplotlib.dates import  DateFormatter, WeekdayLocator, HourLocator, \
-     DayLocator, MONDAY
-from matplotlib.finance import quotes_historical_yahoo, candlestick,\
-     plot_day_summary, candlestick2
 
 class StartQT4(QtGui.QMainWindow):
     def __init__(self, parent=None):
@@ -244,9 +238,7 @@ class StartQT4(QtGui.QMainWindow):
             rownum = 0
             for row in reader:
                 # Save header row.
-                if rownum == 0:
-                    header = row
-                else:
+                if rownum != 0:
                     colnum = 0
                     for col in row:
                         if colnum == 0:
@@ -278,7 +270,6 @@ class StartQT4(QtGui.QMainWindow):
             mondays = WeekdayLocator(MONDAY)        # major ticks on the mondays
             alldays    = DayLocator()              # minor ticks on the days
             weekFormatter = DateFormatter('%b %d')  # e.g., Jan 12
-            dayFormatter = DateFormatter('%d')      # e.g., 12
             
             quotes = quotes_historical_yahoo(self.trainingFile, date1, date2)
             
@@ -347,27 +338,32 @@ class StartQT4(QtGui.QMainWindow):
             elif self.ui.comboBox_3.currentText() == "Year/s":
                 fileLabel += "y"
                 
-            if self.ui.radioButton.isChecked():
+            numOfDimensions = 0
+                
+            if self.ui.checkBox_1.isChecked():
+                numOfDimensions += 1
                 lineToWrite += "Open Value,"
                 fileLabel += "-OpenValue"
-            if self.ui.radioButton_2.isChecked():
+            if self.ui.checkBox_2.isChecked():
+                numOfDimensions += 1
                 lineToWrite += "Close Value,"
                 fileLabel += "-CloseValue"
-            if self.ui.radioButton_3.isChecked():
+            if self.ui.checkBox_3.isChecked():
+                numOfDimensions += 1
                 lineToWrite += "Highest Value,"
                 fileLabel += "-HighValue"
-            if self.ui.radioButton_4.isChecked():
+            if self.ui.checkBox_4.isChecked():
+                numOfDimensions += 1
                 lineToWrite += "Lowest Value,"
                 fileLabel += "-LowValue"
-            if self.ui.radioButton_5.isChecked():
+            if self.ui.checkBox_5.isChecked():
+                numOfDimensions += 1
                 lineToWrite += "Volume Value,"
                 fileLabel += "-VolumeValue"
-            if self.ui.radioButton_6.isChecked():
+            if self.ui.checkBox_6.isChecked():
+                numOfDimensions += 1
                 lineToWrite += "Gain Value,"
                 fileLabel += "-GainValue"
-            if self.ui.radioButton_7.isChecked():
-                lineToWrite += "PCA Value,"
-                fileLabel += "-PCAValue"
             if self.ui.checkBox.isChecked():
                 self.scalation(inputFile)
                 inputFile += "-scaled"
@@ -382,7 +378,9 @@ class StartQT4(QtGui.QMainWindow):
             reader = csv.reader(ifile)
             ofile = open('../Values/' + str(self.ui.listWidget.item(x).text()).split(".")[0] + "-" + fileLabel, "wb")
             
-            
+            datos = np.zeros((rowmax-2,numOfDimensions))
+            differences = []
+            header = lineToWrite;
             ofile.write(lineToWrite)  
             lineToWrite = ""
             for row in reader:
@@ -432,22 +430,22 @@ class StartQT4(QtGui.QMainWindow):
                                 dateCounter = 0
                                 counter = 0
                                 check = 0
-                                if self.ui.radioButton.isChecked():
+                                if self.ui.checkBox_1.isChecked():
                                     lineToWrite += str(openValue)
                                     check = 1
-                                if self.ui.radioButton_2.isChecked():
+                                if self.ui.checkBox_2.isChecked():
                                     lineToWrite += str(closeValue)
                                     check = 1
-                                if self.ui.radioButton_3.isChecked():
+                                if self.ui.checkBox_3.isChecked():
                                     lineToWrite += str(highValue)
                                     check = 1
-                                if self.ui.radioButton_4.isChecked():
+                                if self.ui.checkBox_4.isChecked():
                                     lineToWrite += str(lowValue)
                                     check = 1
-                                if self.ui.radioButton_5.isChecked():
+                                if self.ui.checkBox_5.isChecked():
                                     lineToWrite += str(volume)
                                     check = 1
-                                if self.ui.radioButton_6.isChecked():
+                                if self.ui.checkBox_6.isChecked():
                                     lineToWrite += str(closeValue-openValue)
                                     check = 1
                                 if check == 1:
@@ -459,22 +457,22 @@ class StartQT4(QtGui.QMainWindow):
                     else:
                         if self.ui.comboBox_3.currentText() == 'Day/s':
                             check = 0
-                            if self.ui.radioButton.isChecked():
+                            if self.ui.checkBox_1.isChecked():
                                 lineToWrite += str(openValue)
                                 check = 1
-                            if self.ui.radioButton_2.isChecked():
+                            if self.ui.checkBox_2.isChecked():
                                 lineToWrite += str(closeValue)
                                 check = 1
-                            if self.ui.radioButton_3.isChecked():
+                            if self.ui.checkBox_3.isChecked():
                                 lineToWrite += str(highValue)
                                 check = 1
-                            if self.ui.radioButton_4.isChecked():
+                            if self.ui.checkBox_4.isChecked():
                                 lineToWrite += str(lowValue)
                                 check = 1
-                            if self.ui.radioButton_5.isChecked():
+                            if self.ui.checkBox_5.isChecked():
                                 lineToWrite += str(volume)
                                 check = 1
-                            if self.ui.radioButton_6.isChecked():
+                            if self.ui.checkBox_6.isChecked():
                                 lineToWrite += str(closeValue-openValue)
                                 check = 1
                             
@@ -490,9 +488,11 @@ class StartQT4(QtGui.QMainWindow):
                             if counter == self.ui.spinBox_2.value() or rownum == rowmax:
                                 lineCloseValue = closeValue
                                 if prevOpenValue - prevCloseValue > 0:
-                                    ofile.write(lineToWrite+"\n+1\n")  
+                                    ofile.write(lineToWrite+"\n+1\n")
+                                    differences.append('+1')
                                 elif prevOpenValue - prevCloseValue < 0:
                                     ofile.write(lineToWrite+"\n-1\n") 
+                                    differences.append('-1')
                                 prevOpenValue = lineOpenValue
                                 prevCloseValue = lineCloseValue
                                 lineToWrite = ""
@@ -500,9 +500,11 @@ class StartQT4(QtGui.QMainWindow):
                         else:
                             if dateCounter == self.ui.spinBox_2.value():
                                 if prevOpenValue - prevCloseValue > 0:
-                                    ofile.write(lineToWrite+"\n+1\n")  
+                                    ofile.write(lineToWrite+"\n+1\n")
+                                    differences.append('+1')
                                 elif prevOpenValue - prevCloseValue < 0:
-                                    ofile.write(lineToWrite+"\n-1\n") 
+                                    ofile.write(lineToWrite+"\n-1\n")
+                                    differences.append('-1')
                                 prevOpenValue = lineOpenValue
                                 prevCloseValue = lineCloseValue
                                 lineOpenValue = openValue
@@ -514,32 +516,67 @@ class StartQT4(QtGui.QMainWindow):
                             check = 0
                             if counter != 1:
                                 lineToWrite += ";"
-                            if self.ui.radioButton.isChecked():
+                            if self.ui.checkBox_1.isChecked():
                                 lineToWrite += str(openValue)
                                 check = 1
-                            if self.ui.radioButton_2.isChecked():
+                            if self.ui.checkBox_2.isChecked():
                                 lineToWrite += str(closeValue)
                                 check = 1
-                            if self.ui.radioButton_3.isChecked():
+                            if self.ui.checkBox_3.isChecked():
                                 lineToWrite += str(highValue)
                                 check = 1
-                            if self.ui.radioButton_4.isChecked():
+                            if self.ui.checkBox_4.isChecked():
                                 lineToWrite += str(lowValue)
                                 check = 1
-                            if self.ui.radioButton_5.isChecked():
+                            if self.ui.checkBox_5.isChecked():
                                 lineToWrite += str(volume)
                                 check = 1
-                            if self.ui.radioButton_6.isChecked():
+                            if self.ui.checkBox_6.isChecked():
                                 lineToWrite += str(closeValue-openValue)
                                 check = 1
                             lineCloseValue = closeValue
                                     
                             if rownum == rowmax:
                                 if prevOpenValue - prevCloseValue > 0:
-                                    ofile.write(lineToWrite+"\n+1\n")  
+                                    ofile.write(lineToWrite+"\n+1\n")
+                                    differences.append('+1')
                                 elif prevOpenValue - prevCloseValue < 0:
-                                    ofile.write(lineToWrite+"\n-1\n") 
+                                    ofile.write(lineToWrite+"\n-1\n")
+                                    differences.append('-1')
+                        
+                        if numOfDimensions != 1:
+                            i = 0
+                            if self.ui.checkBox_1.isChecked():
+                                datos[rownum-3][i] = openValue
+                                i += 1
+                            if self.ui.checkBox_3.isChecked():
+                                datos[rownum-3][i] = highValue
+                                i += 1
+                            if self.ui.checkBox_4.isChecked():
+                                datos[rownum-3][i] = lowValue
+                                i += 1
+                            if self.ui.checkBox_2.isChecked():
+                                datos[rownum-3][i] = closeValue
+                                i += 1
+                            if self.ui.checkBox_5.isChecked():
+                                datos[rownum-3][i] = volume
+                                i += 1
+
                 rownum += 1
+            
+            ifile.close()
+            ofile.close()
+            if numOfDimensions != 1:
+                result = self.PCA(datos, 1)
+
+                ofile = open('../Values/' + str(self.ui.listWidget.item(x).text()).split(".")[0] + "-" + fileLabel, "wb")
+                i = 0
+                ofile.write(header)  
+                for label in differences:
+                    ofile.write(str(result[0][i]) + '\n' + label + '\n')
+                    i += 1
+
+                
             ifile.close()
             ofile.close()
 
@@ -707,12 +744,13 @@ class StartQT4(QtGui.QMainWindow):
             self.statusBar().showMessage("Predicting")
     
     def PCA(self, datos, k):
-        sigma = (datos.T*datos)/len(datos)
+                
+        sigma = (datos*datos)/len(datos)
         
-        U, s, V = np.linalg.svd(sigma)
-        
-        uReduce = U[:, 0:k]    
-    
+        U, s, v = np.linalg.svd(sigma, full_matrices=True)
+
+        uReduce = U[:,0:k]
+
         z = uReduce.T*datos.T
     
         return z
@@ -723,3 +761,4 @@ if __name__ == "__main__":
     myapp = StartQT4()
     myapp.show()
     sys.exit(app.exec_())
+
