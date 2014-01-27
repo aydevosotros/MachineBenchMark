@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -256,7 +256,7 @@
       <property name="title">
        <string>Values</string>
       </property>
-      <widget class="QRadioButton" name="radioButton_4">
+      <widget class="QCheckBox" name="checkBox_4">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -269,7 +269,7 @@
         <string>Lowest value</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton_2">
+      <widget class="QCheckBox" name="checkBox_2">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -282,7 +282,7 @@
         <string>Close value</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton_3">
+      <widget class="QCheckBox" name="checkBox_3">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -295,7 +295,7 @@
         <string>Highest value</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton">
+      <widget class="QCheckBox" name="checkBox_1">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -311,7 +311,7 @@
         <bool>true</bool>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton_5">
+      <widget class="QCheckBox" name="checkBox_5">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -324,7 +324,7 @@
         <string>Volume</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="radioButton_6">
+      <widget class="QCheckBox" name="checkBox_6">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -335,19 +335,6 @@
        </property>
        <property name="text">
         <string>Gain</string>
-       </property>
-      </widget>
-      <widget class="QRadioButton" name="radioButton_7">
-       <property name="geometry">
-        <rect>
-         <x>80</x>
-         <y>190</y>
-         <width>150</width>
-         <height>22</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>PCA</string>
        </property>
       </widget>
       <widget class="QCheckBox" name="checkBox">
