@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -34,9 +34,9 @@
       <property name="geometry">
        <rect>
         <x>40</x>
-        <y>30</y>
+        <y>80</y>
         <width>291</width>
-        <height>391</height>
+        <height>341</height>
        </rect>
       </property>
       <property name="title">
@@ -46,7 +46,7 @@
        <property name="geometry">
         <rect>
          <x>130</x>
-         <y>50</y>
+         <y>40</y>
          <width>110</width>
          <height>27</height>
         </rect>
@@ -63,7 +63,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>60</y>
+         <y>50</y>
          <width>66</width>
          <height>17</height>
         </rect>
@@ -76,7 +76,7 @@
        <property name="geometry">
         <rect>
          <x>20</x>
-         <y>100</y>
+         <y>90</y>
          <width>66</width>
          <height>17</height>
         </rect>
@@ -89,7 +89,7 @@
        <property name="geometry">
         <rect>
          <x>130</x>
-         <y>90</y>
+         <y>80</y>
          <width>110</width>
          <height>27</height>
         </rect>
@@ -106,7 +106,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>140</y>
+         <y>130</y>
          <width>281</width>
          <height>191</height>
         </rect>
@@ -176,16 +176,29 @@
        <property name="minimum">
         <number>1</number>
        </property>
+       <property name="value">
+        <number>5</number>
+       </property>
       </widget>
       <widget class="QComboBox" name="comboBox_2">
        <property name="geometry">
         <rect>
          <x>150</x>
          <y>60</y>
-         <width>78</width>
+         <width>111</width>
          <height>27</height>
         </rect>
        </property>
+       <item>
+        <property name="text">
+         <string>Minute/s</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Hour/s</string>
+        </property>
+       </item>
        <item>
         <property name="text">
          <string>Day/s</string>
@@ -214,6 +227,22 @@
       </property>
       <property name="text">
        <string>Add to Portfolio</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_7">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>30</y>
+        <width>141</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Use Simulator TS</string>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
       </property>
      </widget>
     </widget>
@@ -341,13 +370,26 @@
        <property name="geometry">
         <rect>
          <x>80</x>
-         <y>220</y>
+         <y>240</y>
          <width>97</width>
          <height>22</height>
         </rect>
        </property>
        <property name="text">
         <string>Scale</string>
+       </property>
+      </widget>
+      <widget class="QCheckBox" name="checkBox_8">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>210</y>
+         <width>150</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>PCA</string>
        </property>
       </widget>
      </widget>
@@ -468,6 +510,63 @@
           </property>
          </item>
         </widget>
+        <widget class="QComboBox" name="comboBox_6">
+         <item>
+          <property name="text">
+           <string>Normal</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Gradient</string>
+          </property>
+         </item>
+        </widget>
+       </widget>
+       <widget class="QSplitter" name="splitter_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>80</y>
+          <width>201</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+         <property name="decimals">
+          <number>4</number>
+         </property>
+         <property name="singleStep">
+          <double>0.100000000000000</double>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QSplitter" name="splitter_3">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>120</y>
+          <width>201</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QSpinBox" name="spinBox_3"/>
        </widget>
       </widget>
       <widget class="QComboBox" name="comboBox">
@@ -479,6 +578,11 @@
          <height>27</height>
         </rect>
        </property>
+       <item>
+        <property name="text">
+         <string>Lineal Regression</string>
+        </property>
+       </item>
        <item>
         <property name="text">
          <string>Logistic Regression</string>
