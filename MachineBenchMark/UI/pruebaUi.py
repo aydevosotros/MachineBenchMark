@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Thu Jan 30 17:28:37 2014
+# Created: Thu Jan 30 18:16:59 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -179,6 +179,11 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_2.setDecimals(4)
         self.doubleSpinBox_2.setSingleStep(0.1)
         self.doubleSpinBox_2.setObjectName(_fromUtf8("doubleSpinBox_2"))
+        self.comboBox_7 = QtGui.QComboBox(self.splitter_2)
+        self.comboBox_7.setObjectName(_fromUtf8("comboBox_7"))
+        self.comboBox_7.addItem(_fromUtf8(""))
+        self.comboBox_7.addItem(_fromUtf8(""))
+        self.comboBox_7.addItem(_fromUtf8(""))
         self.splitter_3 = QtGui.QSplitter(self.groupBox_8)
         self.splitter_3.setGeometry(QtCore.QRect(10, 120, 201, 27))
         self.splitter_3.setOrientation(QtCore.Qt.Horizontal)
@@ -298,6 +303,9 @@ class Ui_MainWindow(object):
         self.comboBox_5.setItemText(1, _translate("MainWindow", "Hard", None))
         self.comboBox_6.setItemText(0, _translate("MainWindow", "Normal", None))
         self.comboBox_6.setItemText(1, _translate("MainWindow", "Gradient", None))
+        self.comboBox_7.setItemText(0, _translate("MainWindow", "Linear", None))
+        self.comboBox_7.setItemText(1, _translate("MainWindow", "Polynomial", None))
+        self.comboBox_7.setItemText(2, _translate("MainWindow", "RBF", None))
         self.comboBox.setItemText(0, _translate("MainWindow", "Lineal Regression", None))
         self.comboBox.setItemText(1, _translate("MainWindow", "Logistic Regression", None))
         self.comboBox.setItemText(2, _translate("MainWindow", "Neural Network", None))

@@ -561,6 +561,23 @@
           <double>0.100000000000000</double>
          </property>
         </widget>
+        <widget class="QComboBox" name="comboBox_7">
+         <item>
+          <property name="text">
+           <string>Linear</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Polynomial</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RBF</string>
+          </property>
+         </item>
+        </widget>
        </widget>
        <widget class="QSplitter" name="splitter_3">
         <property name="geometry">

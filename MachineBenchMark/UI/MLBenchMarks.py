@@ -75,11 +75,15 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.comboBox_5.hide()
             self.ui.comboBox_6.show()
             self.ui.splitter_3.hide()
+            self.ui.comboBox_7.hide()
+
             if self.ui.comboBox_6.currentText() == "Normal":
                 self.ui.splitter_2.hide()
             else:
                 self.ui.label_8.setText("Regularization")
                 self.ui.splitter_2.show()
+                self.ui.doubleSpinBox_2.show()
+                self.ui.comboBox_7.hide()
         elif self.ui.comboBox.currentText() == "Logistic Regression":
             self.ui.label_2.setText("Regularization")
             self.ui.doubleSpinBox.show()
@@ -87,6 +91,8 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.comboBox_6.hide()
             self.ui.splitter_2.hide()
             self.ui.splitter_3.hide()
+            self.ui.comboBox_7.hide()
+
         elif self.ui.comboBox.currentText() == "Neural Network":
             self.ui.label_2.setText("Regularization")
             self.ui.doubleSpinBox.show()
@@ -94,15 +100,23 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.comboBox_6.hide()
             self.ui.label_8.setText("Alpha")
             self.ui.splitter_2.show()
+            self.ui.doubleSpinBox_2.show()
+            self.ui.comboBox_7.hide()
+            
             self.ui.label_9.setText("Iterations")
             self.ui.splitter_3.show()
+            self.ui.comboBox_7.hide()
+
         elif self.ui.comboBox.currentText() == "SVM":
             self.ui.label_2.setText("Margin")
             self.ui.doubleSpinBox.hide()
             self.ui.comboBox_5.show()
             self.ui.comboBox_6.hide()
-            self.ui.splitter_2.hide()
+            self.ui.splitter_2.show()
             self.ui.splitter_3.hide()
+            self.ui.doubleSpinBox_2.hide()
+            self.ui.label_8.setText("Kernel")
+            self.ui.comboBox_7.show()
 
     def getTrainingSet(self):
         # Obtengo las fechas para la descarga
@@ -894,6 +908,14 @@ class StartQT4(QtGui.QMainWindow):
                 arguments += str(0)
             else:
                 arguments += str(1)
+            
+            if self.ui.comboBox_7.currentText() == "Linear":
+                arguments += " " + str(0)
+            elif self.ui.comboBox_7.currentText() == "Polynomial":
+                arguments += " " + str(1)
+            else
+                arguments += " " + str(2)   
+            
         elif machineNumber == 3:
             if self.ui.comboBox_6.currentIndex() == "Normal":
                 arguments += str(1)
