@@ -903,6 +903,7 @@ class StartQT4(QtGui.QMainWindow):
         else:
             trainingFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Training'
             testFile = '../Values/' + str(self.ui.labeledFilesWidget.currentItem().text()) + '-Test'
+            print "./lgm" + " " + str(machineNumber) + " " + str(predictOrTesting) + " " + trainingFile + " " + testFile + " " + arguments
             os.system("./lgm" + " " + str(machineNumber) + " " + str(predictOrTesting) + " " + trainingFile + " " + testFile + " " + arguments)
             self.statusBar().showMessage("Testing")
 
