@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Wed Jan 29 17:55:05 2014
+# Created: Thu Jan 30 17:28:37 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -187,6 +187,7 @@ class Ui_MainWindow(object):
         self.label_9.setText(_fromUtf8(""))
         self.label_9.setObjectName(_fromUtf8("label_9"))
         self.spinBox_3 = QtGui.QSpinBox(self.splitter_3)
+        self.spinBox_3.setMaximum(1000000)
         self.spinBox_3.setObjectName(_fromUtf8("spinBox_3"))
         self.comboBox = QtGui.QComboBox(self.groupBox)
         self.comboBox.setGeometry(QtCore.QRect(60, 100, 231, 27))
@@ -255,7 +256,7 @@ class Ui_MainWindow(object):
         self.actionSalir.setObjectName(_fromUtf8("actionSalir"))
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
