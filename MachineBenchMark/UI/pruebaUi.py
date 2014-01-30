@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Tue Jan 28 20:42:45 2014
+# Created: Wed Jan 29 17:55:05 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -129,10 +129,13 @@ class Ui_MainWindow(object):
         self.spinBox_2 = QtGui.QSpinBox(self.groupBox_6)
         self.spinBox_2.setGeometry(QtCore.QRect(30, 60, 60, 27))
         self.spinBox_2.setMinimum(1)
+        self.spinBox_2.setProperty("value", 5)
         self.spinBox_2.setObjectName(_fromUtf8("spinBox_2"))
         self.comboBox_3 = QtGui.QComboBox(self.groupBox_6)
         self.comboBox_3.setGeometry(QtCore.QRect(150, 60, 78, 27))
         self.comboBox_3.setObjectName(_fromUtf8("comboBox_3"))
+        self.comboBox_3.addItem(_fromUtf8(""))
+        self.comboBox_3.addItem(_fromUtf8(""))
         self.comboBox_3.addItem(_fromUtf8(""))
         self.comboBox_3.addItem(_fromUtf8(""))
         self.comboBox_3.addItem(_fromUtf8(""))
@@ -252,7 +255,7 @@ class Ui_MainWindow(object):
         self.actionSalir.setObjectName(_fromUtf8("actionSalir"))
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -283,9 +286,11 @@ class Ui_MainWindow(object):
         self.checkBox.setText(_translate("MainWindow", "Scale", None))
         self.checkBox_8.setText(_translate("MainWindow", "PCA", None))
         self.groupBox_6.setTitle(_translate("MainWindow", "Group by", None))
-        self.comboBox_3.setItemText(0, _translate("MainWindow", "Day/s", None))
-        self.comboBox_3.setItemText(1, _translate("MainWindow", "Month/s", None))
-        self.comboBox_3.setItemText(2, _translate("MainWindow", "Year/s", None))
+        self.comboBox_3.setItemText(0, _translate("MainWindow", "Minute/s", None))
+        self.comboBox_3.setItemText(1, _translate("MainWindow", "Hour/s", None))
+        self.comboBox_3.setItemText(2, _translate("MainWindow", "Day/s", None))
+        self.comboBox_3.setItemText(3, _translate("MainWindow", "Month/s", None))
+        self.comboBox_3.setItemText(4, _translate("MainWindow", "Year/s", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("MainWindow", "Portfolio", None))
         self.groupBox.setTitle(_translate("MainWindow", "Machine parameters", None))
         self.comboBox_5.setItemText(0, _translate("MainWindow", "Soft", None))

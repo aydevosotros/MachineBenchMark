@@ -31,20 +31,42 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.comboBox_6, QtCore.SIGNAL("currentIndexChanged(QString)"), self.changeMachineParameters)
         QtCore.QObject.connect(self.ui.pushButton_2, QtCore.SIGNAL("clicked()"), self.loadThetaValues)
         QtCore.QObject.connect(self.ui.pushButton, QtCore.SIGNAL("clicked()"), self.predictTodayValue)
+        QtCore.QObject.connect(self.ui.checkBox_1, QtCore.SIGNAL("clicked()"), self.hideOptions)
+        QtCore.QObject.connect(self.ui.checkBox_2, QtCore.SIGNAL("clicked()"), self.hideOptions)
+        QtCore.QObject.connect(self.ui.checkBox_3, QtCore.SIGNAL("clicked()"), self.hideOptions)
+        QtCore.QObject.connect(self.ui.checkBox_4, QtCore.SIGNAL("clicked()"), self.hideOptions)
+        QtCore.QObject.connect(self.ui.checkBox_5, QtCore.SIGNAL("clicked()"), self.hideOptions)
+        QtCore.QObject.connect(self.ui.checkBox_6, QtCore.SIGNAL("clicked()"), self.hideOptions)
+
         QtCore.QObject.connect(self.ui.checkBox_7, QtCore.SIGNAL("clicked()"), self.hideOptions)
         QtCore.QObject.connect(self.ui.checkBox_8, QtCore.SIGNAL("clicked()"), self.hideOptions)
 
-        
     def hideOptions(self):
         if self.ui.checkBox_7.isChecked():
             self.ui.groupBox_2.hide()
         else:
             self.ui.groupBox_2.show()
-        
-        if self.ui.checkBox_8.isChecked():
+            
+        count = 0
+        if self.ui.checkBox_1.isChecked():
+            count += 1
+        if self.ui.checkBox_2.isChecked():
+            count += 1
+        if self.ui.checkBox_3.isChecked():
+            count += 1
+        if self.ui.checkBox_4.isChecked():
+            count += 1
+        if self.ui.checkBox_5.isChecked():
+            count += 1
+        if self.ui.checkBox_6.isChecked():
+            count += 1
+            
+        if self.ui.checkBox_8.isChecked() or count == 1:
             self.ui.groupBox_6.show()
         else:
             self.ui.groupBox_6.hide()
+            self.ui.comboBox_3.setCurrentIndex(0)
+            self.ui.spinBox_2.setValue(5)
 
     def changeMachineParameters(self):
         if self.ui.comboBox.currentText() == "Lineal Regression":
@@ -93,10 +115,12 @@ class StartQT4(QtGui.QMainWindow):
             get_historical(self.symbol, self.StartDate.day(), self.StartDate.month(), self.StartDate.year(), self.EndDate.day(), self.EndDate.month(), self.EndDate.year())
             print("Archivo descargado")
             self.statusBar().showMessage('Index added to portfolio successfully')
-            # Pinto los datos
                 
     def modifyTrainingSet(self):
-        self.trainingFile = str(self.ui.widget.getSymbolSelected())
+        if self.ui.checkBox_7.isChecked():
+            self.trainingFile = 'rap2_training'
+        else:
+            self.trainingFile = str(self.ui.widget.getSymbolSelected())
         self.StartDate = self.ui.startsDate.date()
         self.EndDate = self.ui.endDate.date()
         if self.ui.checkBox_7.isChecked():
@@ -118,11 +142,11 @@ class StartQT4(QtGui.QMainWindow):
         else:
             ifile = open('../Values/' + self.trainingFile + '.csv', "rb")
         reader = csv.reader(ifile)
-        if self.ui.comboBox_2.currentText() == 'Day/s':
+        if self.ui.comboBox_2.currentText() == 'Minute/s':
             if self.ui.checkBox_7.isChecked():
-                ofile = open('../Values/' + 'rap2_training' + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'd' + '.csv', "wb")
+                ofile = open('../Values/' + 'rap2_training' + '-' + str(self.ui.spinBox.value()) + 'min' + '.csv', "wb")
             else:
-                ofile = open('../Values/' + self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'd' + '.csv', "wb")
+                ofile = open('../Values/' + self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'min' + '.csv', "wb")
             writer = csv.writer(ofile)
             for row in reader:
                 # Save header row.
@@ -133,7 +157,7 @@ class StartQT4(QtGui.QMainWindow):
                     counter += 1
                     colnum = 0
                     for col in row:
-                        if counter == self.ui.spinBox.value() or rownum == rowmax:
+                        if counter == (self.ui.spinBox.value()/5) or rownum == rowmax:
                             if colnum == 0:
                                 openDate = str(col);
                             if colnum == 1:
@@ -148,9 +172,127 @@ class StartQT4(QtGui.QMainWindow):
                             if float(col) < lowValue:
                                 lowValue = float(col)
                         if colnum == 5:
-                            volValue += int(col)
+                            volValue += float(col)
                         colnum += 1
-                    if counter == self.ui.spinBox.value() or rownum == rowmax:
+                    if counter == (self.ui.spinBox.value()/5) or rownum == rowmax:
+                        counter = 0
+                        writer.writerow([openDate,openValue,highValue,lowValue,closeValue,volValue])
+                        highValue = 0.0
+                        lowValue = sys.float_info.max     
+                        volValue = 0;            
+                rownum += 1         
+            ifile.close()
+            ofile.close()
+        elif self.ui.comboBox_2.currentText() == 'Hour/s':
+            horaActual = "";      
+            hoursPerGroup = self.ui.spinBox.value()
+            if self.ui.checkBox_7.isChecked():
+                ofile = open('../Values/' + 'rap2_training' + '-' + str(self.ui.spinBox.value()) + 'h' + '.csv', "wb")
+            else:   
+                ofile = open('../Values/' + self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'h' + '.csv', "wb")
+            writer = csv.writer(ofile)
+            for row in reader:
+                # Save header row.
+                if rownum == 1:
+                    header = row
+                    writer.writerow(header)
+                else:
+                    counter += 1
+                    colnum = 0
+                    for col in row:
+
+                        if colnum == 0:
+                            if horaActual != "" and horaActual != str(col).split("-")[3]:
+                                if hoursPerGroup == 1:
+                                    counter = 1
+                                    writer.writerow([openDate,openValue,highValue,lowValue,closeValue,volValue])
+                                    highValue = 0.0
+                                    lowValue = sys.float_info.max     
+                                    volValue = 0
+                                    hoursPerGroup = self.ui.spinBox.value()
+                                else:
+                                    hoursPerGroup -= 1
+                                    horaActual = str(col).split("-")[3]
+                            else:
+                                horaActual = str(col).split("-")[3]
+                        if colnum == 0:
+                            openDate = str(col)
+                        if colnum == 1:
+                            openValue = float(col)
+                        if counter == 1:
+                            if colnum == 0:
+                                horaActual = str(col).split("-")[3]
+                            if colnum == 4:
+                                closeValue = float(col)
+                        if colnum == 2:
+                            if float(col) > highValue:
+                                highValue = float(col)
+                        if colnum == 3:
+                            if float(col) < lowValue:
+                                lowValue = float(col)
+                        if colnum == 5:
+                            volValue += float(col)
+                        colnum += 1
+                    if rownum == rowmax:
+                        counter = 0
+                        writer.writerow([openDate,openValue,highValue,lowValue,closeValue,volValue])
+                        highValue = 0.0
+                        lowValue = sys.float_info.max     
+                        volValue = 0;            
+                rownum += 1         
+            ifile.close()
+            ofile.close()
+        elif self.ui.comboBox_2.currentText() == 'Day/s':
+            diaActual = "";      
+            daysPerGroup = self.ui.spinBox.value()
+            if self.ui.checkBox_7.isChecked():
+                ofile = open('../Values/' + 'rap2_training' + '-' + str(self.ui.spinBox.value()) + 'd' + '.csv', "wb")
+            else:   
+                ofile = open('../Values/' + self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'd' + '.csv', "wb")
+            writer = csv.writer(ofile)
+            for row in reader:
+                # Save header row.
+                if rownum == 1:
+                    header = row
+                    writer.writerow(header)
+                else:
+                    counter += 1
+                    colnum = 0
+                    for col in row:
+
+                        if colnum == 0:
+                            if diaActual != "" and diaActual != str(col).split("-")[0]:
+                                if daysPerGroup == 1:
+                                    counter = 1
+                                    writer.writerow([openDate,openValue,highValue,lowValue,closeValue,volValue])
+                                    highValue = 0.0
+                                    lowValue = sys.float_info.max     
+                                    volValue = 0
+                                    daysPerGroup = self.ui.spinBox.value()
+                                else:
+                                    daysPerGroup -= 1
+                                    diaActual = str(col).split("-")[0]
+                            else:
+                                diaActual = str(col).split("-")[0]
+                        if colnum == 0:
+                            openDate = str(col)
+                        if colnum == 1:
+                            openValue = float(col)
+                        if counter == 1:
+                            if colnum == 0:
+                                diaActual = str(col).split("-")[0]
+                            if colnum == 4:
+                                closeValue = float(col)
+                        if colnum == 2:
+                            if float(col) > highValue:
+                                highValue = float(col)
+                        if colnum == 3:
+                            if float(col) < lowValue:
+                                lowValue = float(col)
+                        if colnum == 5:
+                            volValue += float(col)
+                        colnum += 1
+                    if rownum == rowmax:
                         counter = 0
                         writer.writerow([openDate,openValue,highValue,lowValue,closeValue,volValue])
                         highValue = 0.0
@@ -163,7 +305,7 @@ class StartQT4(QtGui.QMainWindow):
             mesActual = "";      
             monthsPerGroup = self.ui.spinBox.value()
             if self.ui.checkBox_7.isChecked():
-                ofile = open('../Values/' + 'rap2_training' + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'm' + '.csv', "wb")
+                ofile = open('../Values/' + 'rap2_training' + '-' + str(self.ui.spinBox.value()) + 'm' + '.csv', "wb")
             else:   
                 ofile = open('../Values/' + self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'm' + '.csv', "wb")
             writer = csv.writer(ofile)
@@ -207,7 +349,7 @@ class StartQT4(QtGui.QMainWindow):
                             if float(col) < lowValue:
                                 lowValue = float(col)
                         if colnum == 5:
-                            volValue += int(col)
+                            volValue += float(col)
                         colnum += 1
                     if rownum == rowmax:
                         counter = 0
@@ -222,7 +364,7 @@ class StartQT4(QtGui.QMainWindow):
             anyoActual = "";      
             yearsPerGroup = self.ui.spinBox.value()
             if self.ui.checkBox_7.isChecked():
-                ofile = open('../Values/' + 'rap2_training' + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'y' + '.csv', "wb")
+                ofile = open('../Values/' + 'rap2_training' + '-' + str(self.ui.spinBox.value()) + 'y' + '.csv', "wb")
             else:
                 ofile = open('../Values/' + self.trainingFile + '-' + str(self.StartDate.year())+str(self.StartDate.month()).zfill(2)+str(self.StartDate.day()).zfill(2) + '-' + str(self.EndDate.year())+str(self.EndDate.month()).zfill(2)+str(self.EndDate.day()).zfill(2) + '-' + str(self.ui.spinBox.value()) + 'y' + '.csv', "wb")
             writer = csv.writer(ofile)
@@ -266,7 +408,7 @@ class StartQT4(QtGui.QMainWindow):
                             if float(col) < lowValue:
                                 lowValue = float(col)
                         if colnum == 5:
-                            volValue += int(col)
+                            volValue += float(col)
                         colnum += 1
                     if rownum == rowmax:
                         counter = 0
@@ -355,6 +497,7 @@ class StartQT4(QtGui.QMainWindow):
 
     def addToPortfolio(self):
         if self.ui.checkBox_7.isChecked():
+            self.modifyTrainingSet()
             self.trainingFile = 'rap2_training'
             if self.ui.comboBox_2.currentText() == 'Minute/s':
                 self.ui.listWidget.addItem(self.trainingFile + '-' + str(self.ui.spinBox.value()) + 'min' + '.csv')
@@ -392,8 +535,12 @@ class StartQT4(QtGui.QMainWindow):
             prevOpenValue = 0.0
             prevCloseValue = 0.0
             rownum = 1
+            actualHour = ""
+            actualDay = ""
             actualMonth = ""
             actualYear = ""
+            hour = ""
+            day = ""
             month = ""
             year = ""
             dateCounter = 0
@@ -407,8 +554,11 @@ class StartQT4(QtGui.QMainWindow):
             inputFile = '../Values/' + str(self.ui.listWidget.item(x).text())
             if self.ui.checkBox_8.isChecked():
                 fileLabel += '-' + str(self.ui.spinBox_2.value())
-
-                if self.ui.comboBox_3.currentText() == "Day/s":
+                if self.ui.comboBox_3.currentText() == "Minute/s":
+                    fileLabel += "min"
+                elif self.ui.comboBox_3.currentText() == "Hour/s":
+                    fileLabel += "h"
+                elif self.ui.comboBox_3.currentText() == "Day/s":
                     fileLabel += "d"
                 elif self.ui.comboBox_3.currentText() == "Month/s":
                     fileLabel += "m"
@@ -458,15 +608,18 @@ class StartQT4(QtGui.QMainWindow):
             datos = np.zeros((rowmax-2,numOfDimensions))
             differences = []
             header = lineToWrite;
-            ofile.write(lineToWrite)  
+            ofile.write(lineToWrite)
             lineToWrite = ""
             for row in reader:
                 if rownum != 1:
                     colnum = 0
                     for col in row:
                         if colnum == 0:
+                            day = str(col).split("-")[0]
                             month = str(col).split("-")[1]
                             year = str(col).split("-")[2]
+                            if self.ui.comboBox_3.currentText() == 'Hour/s':
+                                hour = str(col).split("-")[3]
                         if colnum == 1:
                             openValue = float(col)
                         if colnum == 2:
@@ -480,7 +633,19 @@ class StartQT4(QtGui.QMainWindow):
                         colnum += 1
                     
                     counter += 1
-                    if self.ui.comboBox_3.currentText() == 'Month/s':
+                    if self.ui.comboBox_3.currentText() == 'Hour/s':
+                        if actualHour == "":
+                            actualHour = hour
+                        elif actualHour != hour:
+                            dateCounter += 1
+                            actualHour = hour
+                    elif self.ui.comboBox_3.currentText() == 'Day/s':
+                        if actualDay == "":
+                            actualDay = day
+                        elif actualDay != day:
+                            dateCounter += 1
+                            actualDay = day
+                    elif self.ui.comboBox_3.currentText() == 'Month/s':
                         if actualMonth == "":
                             actualMonth = month
                         elif actualMonth != month:
@@ -493,11 +658,29 @@ class StartQT4(QtGui.QMainWindow):
                             dateCounter += 1
                             actualYear = year;
                     
+                    if numOfDimensions != 1 and self.ui.checkBox_8.isChecked():
+                            i = 0
+                            if self.ui.checkBox_1.isChecked():
+                                datos[rownum-3][i] = openValue
+                                i += 1
+                            if self.ui.checkBox_3.isChecked():
+                                datos[rownum-3][i] = highValue
+                                i += 1
+                            if self.ui.checkBox_4.isChecked():
+                                datos[rownum-3][i] = lowValue
+                                i += 1
+                            if self.ui.checkBox_2.isChecked():
+                                datos[rownum-3][i] = closeValue
+                                i += 1
+                            if self.ui.checkBox_5.isChecked():
+                                datos[rownum-3][i] = volume
+                                i += 1
+                                
                     if storedLines == 0:
                         if counter == 1:
                             prevOpenValue = openValue
-                        if self.ui.comboBox_3.currentText() == 'Day/s': 
-                            if counter == self.ui.spinBox_2.value() or rownum == rowmax:
+                        if self.ui.comboBox_3.currentText() == 'Minute/s': 
+                            if counter == (self.ui.spinBox_2.value()/5) or rownum == rowmax:
                                 prevCloseValue = closeValue
                                 storedLines = 1
                                 counter = 0
@@ -532,7 +715,7 @@ class StartQT4(QtGui.QMainWindow):
                                 prevCloseValue = closeValue
 
                     else:
-                        if self.ui.comboBox_3.currentText() == 'Day/s':
+                        if self.ui.comboBox_3.currentText() == 'Minute/s':
                             check = 0
                             if self.ui.checkBox_1.isChecked():
                                 lineToWrite += str(openValue) + ';'
@@ -554,22 +737,18 @@ class StartQT4(QtGui.QMainWindow):
                                 check = 1
                             
                             lineToWrite = lineToWrite[:-1]
-#                             if check == 1:
-#                                 if counter < self.ui.spinBox_2.value():
-#                                     lineToWrite += ";"
-
                         
                         if counter == 1:
                             lineOpenValue = openValue
                         
-                        if self.ui.comboBox_3.currentText() == 'Day/s':
-                            if counter == self.ui.spinBox_2.value() or rownum == rowmax:
+                        if self.ui.comboBox_3.currentText() == 'Minute/s':
+                            if counter == (self.ui.spinBox_2.value()/5) or rownum == rowmax:
                                 lineCloseValue = closeValue
                                 if prevOpenValue - prevCloseValue > 0:
                                     ofile.write(lineToWrite+"\n+1\n")
                                     differences.append('+1')
-                                elif prevOpenValue - prevCloseValue < 0:
-                                    ofile.write(lineToWrite+"\n-1\n") 
+                                elif prevOpenValue - prevCloseValue <= 0:
+                                    ofile.write(lineToWrite+"\n-1\n")
                                     differences.append('-1')
                                 prevOpenValue = lineOpenValue
                                 prevCloseValue = lineCloseValue
@@ -580,7 +759,7 @@ class StartQT4(QtGui.QMainWindow):
                                 if prevOpenValue - prevCloseValue > 0:
                                     ofile.write(lineToWrite+"\n+1\n")
                                     differences.append('+1')
-                                elif prevOpenValue - prevCloseValue < 0:
+                                elif prevOpenValue - prevCloseValue <= 0:
                                     ofile.write(lineToWrite+"\n-1\n")
                                     differences.append('-1')
                                 prevOpenValue = lineOpenValue
@@ -622,24 +801,6 @@ class StartQT4(QtGui.QMainWindow):
                                     ofile.write(lineToWrite+"\n-1\n")
                                     differences.append('-1')
                         
-                        if numOfDimensions != 1:
-                            i = 0
-                            if self.ui.checkBox_1.isChecked():
-                                datos[rownum-3][i] = openValue
-                                i += 1
-                            if self.ui.checkBox_3.isChecked():
-                                datos[rownum-3][i] = highValue
-                                i += 1
-                            if self.ui.checkBox_4.isChecked():
-                                datos[rownum-3][i] = lowValue
-                                i += 1
-                            if self.ui.checkBox_2.isChecked():
-                                datos[rownum-3][i] = closeValue
-                                i += 1
-                            if self.ui.checkBox_5.isChecked():
-                                datos[rownum-3][i] = volume
-                                i += 1
-
                 rownum += 1
             
             ifile.close()
@@ -653,10 +814,7 @@ class StartQT4(QtGui.QMainWindow):
                 for label in differences:
                     ofile.write(str(result[0][i]) + '\n' + label + '\n')
                     i += 1
-
-                
-            ifile.close()
-            ofile.close()
+                ofile.close()
 
     def createCrossFiles(self):
         #almacenamos las 2 variables
