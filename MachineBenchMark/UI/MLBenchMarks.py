@@ -913,7 +913,7 @@ class StartQT4(QtGui.QMainWindow):
                 arguments += " " + str(0)
             elif self.ui.comboBox_7.currentText() == "Polynomial":
                 arguments += " " + str(1)
-            else
+            else:
                 arguments += " " + str(2)   
             
         elif machineNumber == 3:
