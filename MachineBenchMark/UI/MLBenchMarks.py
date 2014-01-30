@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from pruebaUi import Ui_MainWindow
 import pyqtgraph as pg
-
+import resource
 
 class StartQT4(QtGui.QMainWindow):
     def __init__(self, parent=None):
@@ -1007,6 +1007,8 @@ class StartQT4(QtGui.QMainWindow):
 
         
 if __name__ == "__main__":
+    resource.setrlimit(resource.RLIMIT_AS, (8000 * 1048576L, -1L))
+
     app = QtGui.QApplication(sys.argv)
     myapp = StartQT4()
     myapp.show()
