@@ -840,10 +840,16 @@ class StartQT4(QtGui.QMainWindow):
                     j = 0
                     tmp = ""
 
-                    while j < self.ui.spinBox_2.value() and i < matrixsize-1:
-                        tmp += str(result[0][i]) + ";"
-                        j+=1
-                        i+=1
+                    if self.ui.checkBox_7.isChecked() and self.ui.comboBox_3.currentText() == 'Minute/s':
+                        while j < (self.ui.spinBox_2.value()/5) and i < matrixsize-1:
+                            tmp += str(result[0][i]) + ";"
+                            j+=1
+                            i+=1
+                    else:
+                        while j < self.ui.spinBox_2.value() and i < matrixsize-1:
+                            tmp += str(result[0][i]) + ";"
+                            j+=1
+                            i+=1
                     
                     tmp = tmp[:-1]
                     
