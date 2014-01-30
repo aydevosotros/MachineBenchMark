@@ -568,9 +568,23 @@ class StartQT4(QtGui.QMainWindow):
             lineOpenValue = 0.0
             lineCloseValue = 0.0
             fileLabel = ""
+            numOfDimensions = 0
+                
+            if self.ui.checkBox_1.isChecked():
+                numOfDimensions += 1
+            if self.ui.checkBox_2.isChecked():
+                numOfDimensions += 1
+            if self.ui.checkBox_3.isChecked():
+                numOfDimensions += 1
+            if self.ui.checkBox_4.isChecked():
+                numOfDimensions += 1
+            if self.ui.checkBox_5.isChecked():
+                numOfDimensions += 1
+            if self.ui.checkBox_6.isChecked():
+                numOfDimensions += 1
             
             inputFile = '../Values/' + str(self.ui.listWidget.item(x).text())
-            if self.ui.checkBox_8.isChecked():
+            if self.ui.checkBox_8.isChecked() or numOfDimensions == 1:
                 fileLabel += '-' + str(self.ui.spinBox_2.value())
                 if self.ui.comboBox_3.currentText() == "Minute/s":
                     fileLabel += "min"
@@ -582,31 +596,23 @@ class StartQT4(QtGui.QMainWindow):
                     fileLabel += "m"
                 elif self.ui.comboBox_3.currentText() == "Year/s":
                     fileLabel += "y"
-                
-            numOfDimensions = 0
-                
+                                
             if self.ui.checkBox_1.isChecked():
-                numOfDimensions += 1
                 lineToWrite += "Open Value,"
                 fileLabel += "-OpenValue"
             if self.ui.checkBox_2.isChecked():
-                numOfDimensions += 1
                 lineToWrite += "Close Value,"
                 fileLabel += "-CloseValue"
             if self.ui.checkBox_3.isChecked():
-                numOfDimensions += 1
                 lineToWrite += "Highest Value,"
                 fileLabel += "-HighValue"
             if self.ui.checkBox_4.isChecked():
-                numOfDimensions += 1
                 lineToWrite += "Lowest Value,"
                 fileLabel += "-LowValue"
             if self.ui.checkBox_5.isChecked():
-                numOfDimensions += 1
                 lineToWrite += "Volume Value,"
                 fileLabel += "-VolumeValue"
             if self.ui.checkBox_6.isChecked():
-                numOfDimensions += 1
                 lineToWrite += "Gain Value,"
                 fileLabel += "-GainValue"
             if self.ui.checkBox.isChecked():
@@ -828,10 +834,20 @@ class StartQT4(QtGui.QMainWindow):
 
                 ofile = open('../Values/' + str(self.ui.listWidget.item(x).text()).split(".")[0] + fileLabel, "wb")
                 i = 0
-                ofile.write(header)  
+                ofile.write(header)
+                matrixsize = result.shape[1]
                 for label in differences:
-                    ofile.write(str(result[0][i]) + '\n' + label + '\n')
-                    i += 1
+                    j = 0
+                    tmp = ""
+
+                    while j < self.ui.spinBox_2.value() and i < matrixsize-1:
+                        tmp += str(result[0][i]) + ";"
+                        j+=1
+                        i+=1
+                    
+                    tmp = tmp[:-1]
+                    
+                    ofile.write(tmp + '\n' + label + '\n')
                 ofile.close()
 
     def createCrossFiles(self):
