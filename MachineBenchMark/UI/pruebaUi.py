@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Sat Feb  1 11:26:33 2014
+# Created: Sat Feb  1 12:30:21 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -143,10 +143,10 @@ class Ui_MainWindow(object):
         self.tab = QtGui.QWidget()
         self.tab.setObjectName(_fromUtf8("tab"))
         self.groupBox = QtGui.QGroupBox(self.tab)
-        self.groupBox.setGeometry(QtCore.QRect(410, 30, 331, 361))
+        self.groupBox.setGeometry(QtCore.QRect(410, 30, 331, 391))
         self.groupBox.setObjectName(_fromUtf8("groupBox"))
         self.groupBox_8 = QtGui.QGroupBox(self.groupBox)
-        self.groupBox_8.setGeometry(QtCore.QRect(60, 110, 231, 151))
+        self.groupBox_8.setGeometry(QtCore.QRect(60, 110, 231, 231))
         self.groupBox_8.setTitle(_fromUtf8(""))
         self.groupBox_8.setObjectName(_fromUtf8("groupBox_8"))
         self.splitter = QtGui.QSplitter(self.groupBox_8)
@@ -205,7 +205,7 @@ class Ui_MainWindow(object):
         self.comboBox.addItem(_fromUtf8(""))
         self.comboBox.addItem(_fromUtf8(""))
         self.TrainButton = QtGui.QPushButton(self.groupBox)
-        self.TrainButton.setGeometry(QtCore.QRect(120, 320, 111, 27))
+        self.TrainButton.setGeometry(QtCore.QRect(120, 350, 111, 27))
         self.TrainButton.setObjectName(_fromUtf8("TrainButton"))
         self.groupBox_7 = QtGui.QGroupBox(self.tab)
         self.groupBox_7.setGeometry(QtCore.QRect(30, 30, 351, 391))
@@ -256,6 +256,15 @@ class Ui_MainWindow(object):
         self.pushButton_2.setGeometry(QtCore.QRect(620, 56, 98, 27))
         self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
         self.tabWidget.addTab(self.tab_4, _fromUtf8(""))
+        self.splitter_4 = QtGui.QSplitter(self.centralwidget)
+        self.splitter_4.setGeometry(QtCore.QRect(487, 340, 201, 27))
+        self.splitter_4.setOrientation(QtCore.Qt.Horizontal)
+        self.splitter_4.setObjectName(_fromUtf8("splitter_4"))
+        self.label_10 = QtGui.QLabel(self.splitter_4)
+        self.label_10.setText(_fromUtf8(""))
+        self.label_10.setObjectName(_fromUtf8("label_10"))
+        self.doubleSpinBox_4 = QtGui.QDoubleSpinBox(self.splitter_4)
+        self.doubleSpinBox_4.setObjectName(_fromUtf8("doubleSpinBox_4"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))

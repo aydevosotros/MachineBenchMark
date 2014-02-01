@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from pruebaUi import Ui_MainWindow
 import pyqtgraph as pg
-import resource
 
 class StartQT4(QtGui.QMainWindow):
     def __init__(self, parent=None):
@@ -75,6 +74,7 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.comboBox_5.hide()
             self.ui.comboBox_6.show()
             self.ui.splitter_3.hide()
+            self.ui.splitter_4.hide()
             self.ui.comboBox_7.hide()
 
             if self.ui.comboBox_6.currentText() == "Normal":
@@ -92,6 +92,10 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.splitter_2.hide()
             self.ui.splitter_3.hide()
             self.ui.comboBox_7.hide()
+            self.ui.splitter_4.show()
+            self.ui.label_10.setText("Threshold")
+            self.ui.doubleSpinBox_4.setValue(0.5)
+
 
         elif self.ui.comboBox.currentText() == "Neural Network":
             self.ui.label_2.setText("Regularization")
@@ -102,7 +106,9 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.splitter_2.show()
             self.ui.doubleSpinBox_2.show()
             self.ui.comboBox_7.hide()
-            
+            self.ui.splitter_4.show()
+            self.ui.label_10.setText("Threshold")
+            self.ui.doubleSpinBox_4.setValue(0.5)
             self.ui.label_9.setText("Iterations")
             self.ui.splitter_3.show()
             self.ui.comboBox_7.hide()
@@ -117,6 +123,9 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.doubleSpinBox_2.hide()
             self.ui.label_8.setText("Kernel")
             self.ui.comboBox_7.show()
+            self.ui.splitter_4.show()
+            self.ui.label_10.setText("Threshold")
+            self.ui.doubleSpinBox_4.setValue(0.0)
 
     def getTrainingSet(self):
         # Obtengo las fechas para la descarga
@@ -918,11 +927,13 @@ class StartQT4(QtGui.QMainWindow):
     
         if machineNumber == 0:
             arguments += str(self.ui.doubleSpinBox.value())
+            arguments += " " + str(self.ui.doubleSpinBox_4.value())
         elif machineNumber == 1:
             arguments += str(self.ui.doubleSpinBox.value())
             arguments += ' '
             arguments += str(self.ui.doubleSpinBox_2.value())
             arguments += " " + str(self.ui.spinBox_3.value())
+            arguments += " " + str(self.ui.doubleSpinBox_4.value())
 
 
         elif machineNumber == 2:
@@ -936,7 +947,10 @@ class StartQT4(QtGui.QMainWindow):
             elif self.ui.comboBox_7.currentText() == "Polynomial":
                 arguments += " " + str(1)
             else:
-                arguments += " " + str(2)   
+                arguments += " " + str(2)
+            
+            arguments += " " + str(self.ui.doubleSpinBox_4.value())
+
             
         elif machineNumber == 3:
             if self.ui.comboBox_6.currentIndex() == "Normal":
