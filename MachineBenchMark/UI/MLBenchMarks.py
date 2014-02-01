@@ -973,7 +973,15 @@ class StartQT4(QtGui.QMainWindow):
         scaleFile = open(trainingSet, "rb")
         reader = csv.reader(scaleFile)
         
-        absolMax = sys.float_info.min;
+        absolMax = [0.0,0.0,0.0,0.0,0.0,0.0]
+        
+        i = 0
+        while i < 6:
+            absolMax[i] = sys.float_info.min;
+            i += 1
+        
+        print absolMax
+        
         rownum = 1
         for row in reader:
             if rownum != 1:
@@ -985,8 +993,8 @@ class StartQT4(QtGui.QMainWindow):
                         if num < 0:
                             num *= -1.0;
              
-                        if num > absolMax:
-                            absolMax = num;
+                        if num > absolMax[colnum-2]:
+                            absolMax[colnum-2] = num;
                     colnum += 1
             rownum += 1
             
@@ -1008,7 +1016,7 @@ class StartQT4(QtGui.QMainWindow):
                     if colnum == 1:
                         lineToWrite += str(col)
                     else:
-                        lineToWrite += "," + str(float(col) / absolMax)
+                        lineToWrite += "," + str(float(col) / absolMax[colnum-2])
                         
                 colnum += 1
             lineToWrite += "\n"
