@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Thu Jan 30 18:16:59 2014
+# Created: Sat Feb  1 11:26:33 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -159,6 +159,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox = QtGui.QDoubleSpinBox(self.splitter)
         self.doubleSpinBox.setDecimals(4)
         self.doubleSpinBox.setSingleStep(0.1)
+        self.doubleSpinBox.setProperty("value", 0.001)
         self.doubleSpinBox.setObjectName(_fromUtf8("doubleSpinBox"))
         self.comboBox_5 = QtGui.QComboBox(self.splitter)
         self.comboBox_5.setObjectName(_fromUtf8("comboBox_5"))
@@ -178,6 +179,7 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_2 = QtGui.QDoubleSpinBox(self.splitter_2)
         self.doubleSpinBox_2.setDecimals(4)
         self.doubleSpinBox_2.setSingleStep(0.1)
+        self.doubleSpinBox_2.setProperty("value", 0.001)
         self.doubleSpinBox_2.setObjectName(_fromUtf8("doubleSpinBox_2"))
         self.comboBox_7 = QtGui.QComboBox(self.splitter_2)
         self.comboBox_7.setObjectName(_fromUtf8("comboBox_7"))
@@ -193,6 +195,7 @@ class Ui_MainWindow(object):
         self.label_9.setObjectName(_fromUtf8("label_9"))
         self.spinBox_3 = QtGui.QSpinBox(self.splitter_3)
         self.spinBox_3.setMaximum(1000000)
+        self.spinBox_3.setProperty("value", 1000)
         self.spinBox_3.setObjectName(_fromUtf8("spinBox_3"))
         self.comboBox = QtGui.QComboBox(self.groupBox)
         self.comboBox.setGeometry(QtCore.QRect(60, 100, 231, 27))

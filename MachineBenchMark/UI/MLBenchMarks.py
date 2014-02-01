@@ -922,7 +922,7 @@ class StartQT4(QtGui.QMainWindow):
             arguments += str(self.ui.doubleSpinBox.value())
             arguments += ' '
             arguments += str(self.ui.doubleSpinBox_2.value())
-            arguments += str(self.ui.spinBox_3.value())
+            arguments += " " + str(self.ui.spinBox_3.value())
 
 
         elif machineNumber == 2:
@@ -1056,8 +1056,6 @@ class StartQT4(QtGui.QMainWindow):
 
         
 if __name__ == "__main__":
-    resource.setrlimit(resource.RLIMIT_AS, (8000 * 1048576L, -1L))
-
     app = QtGui.QApplication(sys.argv)
     myapp = StartQT4()
     myapp.show()
