@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Sun Feb  2 12:52:13 2014
+# Created: Sun Feb  2 14:02:28 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -30,7 +30,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.tabWidget = QtGui.QTabWidget(self.centralwidget)
-        self.tabWidget.setGeometry(QtCore.QRect(4, 8, 791, 481))
+        self.tabWidget.setGeometry(QtCore.QRect(3, 8, 791, 481))
         self.tabWidget.setObjectName(_fromUtf8("tabWidget"))
         self.tab_2 = QtGui.QWidget()
         self.tab_2.setObjectName(_fromUtf8("tab_2"))
@@ -196,6 +196,15 @@ class Ui_MainWindow(object):
         self.doubleSpinBox_3 = QtGui.QDoubleSpinBox(self.splitter_3)
         self.doubleSpinBox_3.setMaximum(9999999.99)
         self.doubleSpinBox_3.setObjectName(_fromUtf8("doubleSpinBox_3"))
+        self.splitter_4 = QtGui.QSplitter(self.groupBox_8)
+        self.splitter_4.setGeometry(QtCore.QRect(16, 160, 201, 27))
+        self.splitter_4.setOrientation(QtCore.Qt.Horizontal)
+        self.splitter_4.setObjectName(_fromUtf8("splitter_4"))
+        self.label_10 = QtGui.QLabel(self.splitter_4)
+        self.label_10.setText(_fromUtf8(""))
+        self.label_10.setObjectName(_fromUtf8("label_10"))
+        self.doubleSpinBox_4 = QtGui.QDoubleSpinBox(self.splitter_4)
+        self.doubleSpinBox_4.setObjectName(_fromUtf8("doubleSpinBox_4"))
         self.comboBox = QtGui.QComboBox(self.groupBox)
         self.comboBox.setGeometry(QtCore.QRect(60, 100, 231, 27))
         self.comboBox.setObjectName(_fromUtf8("comboBox"))
@@ -225,13 +234,6 @@ class Ui_MainWindow(object):
         self.crossValidationButton.setGeometry(QtCore.QRect(150, 320, 98, 27))
         self.crossValidationButton.setObjectName(_fromUtf8("crossValidationButton"))
         self.tabWidget.addTab(self.tab, _fromUtf8(""))
-        self.splitter_4 = QtGui.QSplitter(self.centralwidget)
-        self.splitter_4.setGeometry(QtCore.QRect(487, 340, 201, 27))
-        self.splitter_4.setOrientation(QtCore.Qt.Horizontal)
-        self.splitter_4.setObjectName(_fromUtf8("splitter_4"))
-        self.label_10 = QtGui.QLabel(self.splitter_4)
-        self.label_10.setText(_fromUtf8(""))
-        self.label_10.setObjectName(_fromUtf8("label_10"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
