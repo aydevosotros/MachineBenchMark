@@ -17,8 +17,8 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>5</x>
-      <y>10</y>
+      <x>4</x>
+      <y>8</y>
       <width>791</width>
       <height>481</height>
      </rect>
@@ -722,121 +722,6 @@
       </widget>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_4">
-     <attribute name="title">
-      <string>Predict</string>
-     </attribute>
-     <widget class="QComboBox" name="comboBox_4">
-      <property name="geometry">
-       <rect>
-        <x>90</x>
-        <y>70</y>
-        <width>231</width>
-        <height>27</height>
-       </rect>
-      </property>
-      <item>
-       <property name="text">
-        <string>Logistic Regression</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Neural Network</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>SVM</string>
-       </property>
-      </item>
-     </widget>
-     <widget class="Ui_SymbolSearchWidget" name="widget_2" native="true">
-      <property name="geometry">
-       <rect>
-        <x>70</x>
-        <y>190</y>
-        <width>281</width>
-        <height>191</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QListWidget" name="listWidget_2">
-      <property name="geometry">
-       <rect>
-        <x>470</x>
-        <y>100</y>
-        <width>256</width>
-        <height>192</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>40</y>
-        <width>231</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>1 - Choose the machine</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_6">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>160</y>
-        <width>181</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>2 - Choose the index</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_7">
-      <property name="geometry">
-       <rect>
-        <x>470</x>
-        <y>60</y>
-        <width>151</width>
-        <height>17</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>3 - Choose the theta</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton">
-      <property name="geometry">
-       <rect>
-        <x>500</x>
-        <y>340</y>
-        <width>201</width>
-        <height>27</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Predict the index of today</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="pushButton_2">
-      <property name="geometry">
-       <rect>
-        <x>620</x>
-        <y>56</y>
-        <width>98</width>
-        <height>27</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Load Thetas</string>
-      </property>
-     </widget>
-    </widget>
    </widget>
    <widget class="QSplitter" name="splitter_4">
     <property name="geometry">
@@ -855,7 +740,6 @@
       <string/>
      </property>
     </widget>
-    <widget class="QDoubleSpinBox" name="doubleSpinBox_4"/>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

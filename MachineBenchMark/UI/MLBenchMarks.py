@@ -17,7 +17,7 @@ class StartQT4(QtGui.QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.widget.setupUi(self.ui.widget)
-        self.ui.widget_2.setupUi(self.ui.widget_2)
+#         self.ui.widget_2.setupUi(self.ui.widget_2)
         self.changeMachineParameters()
         # here we connect signals with our slots
         QtCore.QObject.connect(self.ui.PlotVolumeButton, QtCore.SIGNAL("clicked()"), self.plotVolume)
@@ -29,8 +29,8 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.comboBox, QtCore.SIGNAL("currentIndexChanged(QString)"), self.changeMachineParameters)
         QtCore.QObject.connect(self.ui.comboBox_6, QtCore.SIGNAL("currentIndexChanged(QString)"), self.changeMachineParameters)
         QtCore.QObject.connect(self.ui.comboBox_7, QtCore.SIGNAL("currentIndexChanged(QString)"), self.changeMachineParameters)
-        QtCore.QObject.connect(self.ui.pushButton_2, QtCore.SIGNAL("clicked()"), self.loadThetaValues)
-        QtCore.QObject.connect(self.ui.pushButton, QtCore.SIGNAL("clicked()"), self.predictTodayValue)
+#         QtCore.QObject.connect(self.ui.pushButton_2, QtCore.SIGNAL("clicked()"), self.loadThetaValues)
+#         QtCore.QObject.connect(self.ui.pushButton, QtCore.SIGNAL("clicked()"), self.predictTodayValue)
         QtCore.QObject.connect(self.ui.checkBox_1, QtCore.SIGNAL("clicked()"), self.hideOptions)
         QtCore.QObject.connect(self.ui.checkBox_2, QtCore.SIGNAL("clicked()"), self.hideOptions)
         QtCore.QObject.connect(self.ui.checkBox_3, QtCore.SIGNAL("clicked()"), self.hideOptions)
@@ -1053,43 +1053,43 @@ class StartQT4(QtGui.QMainWindow):
         scaleFile.close()
         ofile.close()
 
-    def loadThetaValues(self):
-        filePath = "../Values"
-        if self.ui.comboBox_4.currentText() == "Logistic Regression":
-            filePath += "/LR"
-        elif self.ui.comboBox_4.currentText() == "Neural Network":
-            filePath += "/NN"
-        elif self.ui.comboBox_4.currentText() == "SVM":
-            filePath += "/SVM"
-        
-        if self.ui.widget_2.getSymbolSelected() == "":
-            self.statusBar().showMessage('ERROR: You cannot load a Theta file without selecting an index')
-        else:
-            filePath += "/" + str(self.ui.widget_2.getSymbolSelected())
-                    
-            fileList = os.listdir(filePath)
-            
-            for thetaFile in fileList:
-                self.ui.listWidget_2.addItem(thetaFile)
-            self.statusBar().showMessage("File loaded")
-            
-    def predictTodayValue(self):
-        filePath = "../Values"
-        if self.ui.comboBox_4.currentText() == "Logistic Regression":
-            filePath += "/LR"
-        elif self.ui.comboBox_4.currentText() == "Neural Network":
-            filePath += "/NN"
-        elif self.ui.comboBox_4.currentText() == "SVM":
-            filePath += "/SVM"
-        
-        if self.ui.listWidget_2.currentItem() == None:
-            self.statusBar().showMessage('ERROR: You cannot predict without selecting a file')
-        else:
-            filePath += "/" + str(self.ui.widget_2.getSymbolSelected()) + "/"
-            filePath += str(self.ui.listWidget_2.currentItem().text())
-            
-            print filePath
-            self.statusBar().showMessage("Predicting")
+#     def loadThetaValues(self):
+#         filePath = "../Values"
+#         if self.ui.comboBox_4.currentText() == "Logistic Regression":
+#             filePath += "/LR"
+#         elif self.ui.comboBox_4.currentText() == "Neural Network":
+#             filePath += "/NN"
+#         elif self.ui.comboBox_4.currentText() == "SVM":
+#             filePath += "/SVM"
+#         
+#         if self.ui.widget_2.getSymbolSelected() == "":
+#             self.statusBar().showMessage('ERROR: You cannot load a Theta file without selecting an index')
+#         else:
+#             filePath += "/" + str(self.ui.widget_2.getSymbolSelected())
+#                     
+#             fileList = os.listdir(filePath)
+#             
+#             for thetaFile in fileList:
+#                 self.ui.listWidget_2.addItem(thetaFile)
+#             self.statusBar().showMessage("File loaded")
+#             
+#     def predictTodayValue(self):
+#         filePath = "../Values"
+#         if self.ui.comboBox_4.currentText() == "Logistic Regression":
+#             filePath += "/LR"
+#         elif self.ui.comboBox_4.currentText() == "Neural Network":
+#             filePath += "/NN"
+#         elif self.ui.comboBox_4.currentText() == "SVM":
+#             filePath += "/SVM"
+#         
+#         if self.ui.listWidget_2.currentItem() == None:
+#             self.statusBar().showMessage('ERROR: You cannot predict without selecting a file')
+#         else:
+#             filePath += "/" + str(self.ui.widget_2.getSymbolSelected()) + "/"
+#             filePath += str(self.ui.listWidget_2.currentItem().text())
+#             
+#             print filePath
+#             self.statusBar().showMessage("Predicting")
     
     def PCA(self, datos, k):
                 
