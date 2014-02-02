@@ -143,7 +143,7 @@ class StartQT4(QtGui.QMainWindow):
             elif self.ui.comboBox_7.currentText() == "RBF":
                 self.ui.label_9.setText("Sigma")
                 self.ui.doubleSpinBox_3.setSingleStep(0.1)
-                self.ui.doubleSpinBox_3.setDecimals(2)
+                self.ui.doubleSpinBox_3.setDecimals(5)
                 self.ui.doubleSpinBox_3.setValue(0.1)
                 self.ui.splitter_3.show()            
             self.ui.label_10.setText("Threshold")
