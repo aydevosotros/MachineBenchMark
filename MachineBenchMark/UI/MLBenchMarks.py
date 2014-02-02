@@ -28,6 +28,7 @@ class StartQT4(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.TrainButton, QtCore.SIGNAL("clicked()"), self.callTrainingProgram)
         QtCore.QObject.connect(self.ui.comboBox, QtCore.SIGNAL("currentIndexChanged(QString)"), self.changeMachineParameters)
         QtCore.QObject.connect(self.ui.comboBox_6, QtCore.SIGNAL("currentIndexChanged(QString)"), self.changeMachineParameters)
+        QtCore.QObject.connect(self.ui.comboBox_7, QtCore.SIGNAL("currentIndexChanged(QString)"), self.changeMachineParameters)
         QtCore.QObject.connect(self.ui.pushButton_2, QtCore.SIGNAL("clicked()"), self.loadThetaValues)
         QtCore.QObject.connect(self.ui.pushButton, QtCore.SIGNAL("clicked()"), self.predictTodayValue)
         QtCore.QObject.connect(self.ui.checkBox_1, QtCore.SIGNAL("clicked()"), self.hideOptions)
@@ -124,6 +125,12 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.label_8.setText("Kernel")
             self.ui.comboBox_7.show()
             self.ui.splitter_4.show()
+            if self.ui.comboBox_7.currentText() == "Polynomial":
+                self.ui.label_9.setText("Q")
+                self.ui.splitter_3.show()
+            elif self.ui.comboBox_7.currentText() == "RBF":
+                self.ui.label_9.setText("Sigma")
+                self.ui.splitter_3.show()            
             self.ui.label_10.setText("Threshold")
             self.ui.doubleSpinBox_4.setValue(0.0)
 
@@ -946,8 +953,11 @@ class StartQT4(QtGui.QMainWindow):
                 arguments += " " + str(0)
             elif self.ui.comboBox_7.currentText() == "Polynomial":
                 arguments += " " + str(1)
+                arguments += " " + self.ui.spinBox_3.value()
             else:
                 arguments += " " + str(2)
+                arguments += " " + self.ui.spinBox_3.value()
+
             
             arguments += " " + str(self.ui.doubleSpinBox_4.value())
 
