@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Sat Feb  1 12:30:21 2014
+# Created: Sun Feb  2 11:57:07 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -193,10 +193,9 @@ class Ui_MainWindow(object):
         self.label_9 = QtGui.QLabel(self.splitter_3)
         self.label_9.setText(_fromUtf8(""))
         self.label_9.setObjectName(_fromUtf8("label_9"))
-        self.spinBox_3 = QtGui.QSpinBox(self.splitter_3)
-        self.spinBox_3.setMaximum(1000000)
-        self.spinBox_3.setProperty("value", 1000)
-        self.spinBox_3.setObjectName(_fromUtf8("spinBox_3"))
+        self.doubleSpinBox_3 = QtGui.QDoubleSpinBox(self.splitter_3)
+        self.doubleSpinBox_3.setMaximum(9999999.99)
+        self.doubleSpinBox_3.setObjectName(_fromUtf8("doubleSpinBox_3"))
         self.comboBox = QtGui.QComboBox(self.groupBox)
         self.comboBox.setGeometry(QtCore.QRect(60, 100, 231, 27))
         self.comboBox.setObjectName(_fromUtf8("comboBox"))

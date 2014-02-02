@@ -111,6 +111,8 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.label_10.setText("Threshold")
             self.ui.doubleSpinBox_4.setValue(0.5)
             self.ui.label_9.setText("Iterations")
+            self.ui.doubleSpinBox_3.setDecimals(0)
+            self.ui.doubleSpinBox_3.setValue(1000)
             self.ui.splitter_3.show()
             self.ui.comboBox_7.hide()
 
@@ -127,9 +129,13 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.splitter_4.show()
             if self.ui.comboBox_7.currentText() == "Polynomial":
                 self.ui.label_9.setText("Q")
+                self.ui.doubleSpinBox_3.setDecimals(2)
+                self.ui.doubleSpinBox_3.setValue(2)
                 self.ui.splitter_3.show()
             elif self.ui.comboBox_7.currentText() == "RBF":
                 self.ui.label_9.setText("Sigma")
+                self.ui.doubleSpinBox_3.setDecimals(2)
+                self.ui.doubleSpinBox_3.setValue(0.1)
                 self.ui.splitter_3.show()            
             self.ui.label_10.setText("Threshold")
             self.ui.doubleSpinBox_4.setValue(0.0)
@@ -939,7 +945,7 @@ class StartQT4(QtGui.QMainWindow):
             arguments += str(self.ui.doubleSpinBox.value())
             arguments += ' '
             arguments += str(self.ui.doubleSpinBox_2.value())
-            arguments += " " + str(self.ui.spinBox_3.value())
+            arguments += " " + str(self.ui.doubleSpinBox_3.value())
             arguments += " " + str(self.ui.doubleSpinBox_4.value())
 
 
@@ -953,10 +959,10 @@ class StartQT4(QtGui.QMainWindow):
                 arguments += " " + str(0)
             elif self.ui.comboBox_7.currentText() == "Polynomial":
                 arguments += " " + str(1)
-                arguments += " " + self.ui.spinBox_3.value()
+                arguments += " " + self.ui.doubleSpinBox_3.value()
             else:
                 arguments += " " + str(2)
-                arguments += " " + self.ui.spinBox_3.value()
+                arguments += " " + self.ui.doubleSpinBox_3.value()
 
             
             arguments += " " + str(self.ui.doubleSpinBox_4.value())
