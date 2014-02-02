@@ -640,6 +640,7 @@ class StartQT4(QtGui.QMainWindow):
             if self.ui.checkBox.isChecked():
                 self.scalation(inputFile)
                 inputFile += "-scaled"
+                fileLabel += "-Scaled"
                 
             lineToWrite += "Label\n"
             
