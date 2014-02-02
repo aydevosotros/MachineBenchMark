@@ -129,7 +129,7 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.splitter_4.show()
             if self.ui.comboBox_7.currentText() == "Polynomial":
                 self.ui.label_9.setText("Q")
-                self.ui.doubleSpinBox_3.setDecimals(2)
+                self.ui.doubleSpinBox_3.setDecimals(0)
                 self.ui.doubleSpinBox_3.setValue(2)
                 self.ui.splitter_3.show()
             elif self.ui.comboBox_7.currentText() == "RBF":
@@ -959,10 +959,10 @@ class StartQT4(QtGui.QMainWindow):
                 arguments += " " + str(0)
             elif self.ui.comboBox_7.currentText() == "Polynomial":
                 arguments += " " + str(1)
-                arguments += " " + self.ui.doubleSpinBox_3.value()
+                arguments += " " + str(self.ui.doubleSpinBox_3.value())
             else:
                 arguments += " " + str(2)
-                arguments += " " + self.ui.doubleSpinBox_3.value()
+                arguments += " " + str(self.ui.doubleSpinBox_3.value())
 
             
             arguments += " " + str(self.ui.doubleSpinBox_4.value())
