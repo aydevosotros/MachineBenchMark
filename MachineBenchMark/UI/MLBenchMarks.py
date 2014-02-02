@@ -83,11 +83,13 @@ class StartQT4(QtGui.QMainWindow):
             else:
                 self.ui.label_8.setText("Regularization")
                 self.ui.splitter_2.show()
+                self.ui.doubleSpinBox_2.setSingleStep(0.001)
                 self.ui.doubleSpinBox_2.show()
                 self.ui.comboBox_7.hide()
         elif self.ui.comboBox.currentText() == "Logistic Regression":
             self.ui.label_2.setText("Regularization")
             self.ui.doubleSpinBox.show()
+            self.ui.doubleSpinBox.setSingleStep(0.001)
             self.ui.comboBox_5.hide()
             self.ui.comboBox_6.hide()
             self.ui.splitter_2.hide()
@@ -95,23 +97,28 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.comboBox_7.hide()
             self.ui.splitter_4.show()
             self.ui.label_10.setText("Threshold")
+            self.ui.doubleSpinBox_4.setSingleStep(0.1)
             self.ui.doubleSpinBox_4.setValue(0.5)
 
 
         elif self.ui.comboBox.currentText() == "Neural Network":
             self.ui.label_2.setText("Regularization")
+            self.ui.doubleSpinBox.setSingleStep(0.001)
             self.ui.doubleSpinBox.show()
             self.ui.comboBox_5.hide()
             self.ui.comboBox_6.hide()
             self.ui.label_8.setText("Alpha")
             self.ui.splitter_2.show()
+            self.ui.doubleSpinBox_2.setSingleStep(0.001)
             self.ui.doubleSpinBox_2.show()
             self.ui.comboBox_7.hide()
             self.ui.splitter_4.show()
             self.ui.label_10.setText("Threshold")
+            self.ui.doubleSpinBox_4.setSingleStep(0.1)
             self.ui.doubleSpinBox_4.setValue(0.5)
             self.ui.label_9.setText("Iterations")
             self.ui.doubleSpinBox_3.setDecimals(0)
+            self.ui.doubleSpinBox_3.setSingleStep(1)
             self.ui.doubleSpinBox_3.setValue(1000)
             self.ui.splitter_3.show()
             self.ui.comboBox_7.hide()
@@ -129,15 +136,18 @@ class StartQT4(QtGui.QMainWindow):
             self.ui.splitter_4.show()
             if self.ui.comboBox_7.currentText() == "Polynomial":
                 self.ui.label_9.setText("Q")
+                self.ui.doubleSpinBox_3.setSingleStep(1)
                 self.ui.doubleSpinBox_3.setDecimals(0)
                 self.ui.doubleSpinBox_3.setValue(2)
                 self.ui.splitter_3.show()
             elif self.ui.comboBox_7.currentText() == "RBF":
                 self.ui.label_9.setText("Sigma")
+                self.ui.doubleSpinBox_3.setSingleStep(0.1)
                 self.ui.doubleSpinBox_3.setDecimals(2)
                 self.ui.doubleSpinBox_3.setValue(0.1)
                 self.ui.splitter_3.show()            
             self.ui.label_10.setText("Threshold")
+            self.ui.doubleSpinBox_4.setSingleStep(0.1)
             self.ui.doubleSpinBox_4.setValue(0.0)
 
     def getTrainingSet(self):
