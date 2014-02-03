@@ -811,6 +811,8 @@ class StartQT4(QtGui.QMainWindow):
                                 prevCloseValue = lineCloseValue
                                 lineToWrite = ""
                                 counter = 0
+                            else:
+                                lineToWrite += ";"
                         else:
                             if dateCounter == self.ui.spinBox_2.value():
                                 if prevOpenValue - prevCloseValue > 0:
