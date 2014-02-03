@@ -8,6 +8,7 @@ import sys
 from DataMining.historicalprices import get_historical
 import matplotlib.pyplot as plt
 import numpy as np
+import scipy.sparse.linalg as sp
 from pruebaUi import Ui_MainWindow
 import pyqtgraph as pg
 
@@ -1095,7 +1096,7 @@ class StartQT4(QtGui.QMainWindow):
                 
         sigma = (datos*datos)/len(datos)
         
-        U, s, v = np.linalg.svd(sigma, full_matrices=True)
+        U, _, _ = sp.svds(sigma,k)
 
         uReduce = U[:,0:k]
 
