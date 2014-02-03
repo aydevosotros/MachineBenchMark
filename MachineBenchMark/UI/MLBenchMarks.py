@@ -980,7 +980,7 @@ class StartQT4(QtGui.QMainWindow):
 
             
         elif machineNumber == 3:
-            if self.ui.comboBox_6.currentIndex() == "Normal":
+            if self.ui.comboBox_6.currentText() == "Normal":
                 arguments += str(1)
             else:
                 arguments += str(2)
@@ -1006,9 +1006,7 @@ class StartQT4(QtGui.QMainWindow):
         while i < 6:
             absolMax[i] = sys.float_info.min;
             i += 1
-        
-        print absolMax
-        
+                
         rownum = 1
         for row in reader:
             if rownum != 1:
