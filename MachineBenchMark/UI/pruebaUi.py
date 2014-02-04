@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Prueba1.ui'
 #
-# Created: Tue Feb  4 00:14:45 2014
+# Created: Tue Feb  4 21:44:06 2014
 #      by: PyQt4 UI code generator 4.10.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -227,7 +227,7 @@ class Ui_MainWindow(object):
         self.crossValidationPercent.setGeometry(QtCore.QRect(110, 260, 60, 27))
         self.crossValidationPercent.setMinimum(0)
         self.crossValidationPercent.setMaximum(100)
-        self.crossValidationPercent.setProperty("value", 60)
+        self.crossValidationPercent.setProperty("value", 80)
         self.crossValidationPercent.setObjectName(_fromUtf8("crossValidationPercent"))
         self.label_5 = QtGui.QLabel(self.groupBox_7)
         self.label_5.setGeometry(QtCore.QRect(200, 260, 123, 27))
@@ -244,7 +244,7 @@ class Ui_MainWindow(object):
         self.actionSalir.setObjectName(_fromUtf8("actionSalir"))
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
