@@ -910,13 +910,13 @@ class StartQT4(QtGui.QMainWindow):
             num_lineas = num_lineas / 2
             
             #calculamos el numero de lineas para cada fichero
-            num_lineas_training = int((num_lineas*self.num_training)/100)
+            num_lineas_training = int((num_lineas*(100-self.num_training))/100)
             
             num_lineas = num_lineas * 2
             num_lineas_training = num_lineas_training * 2
             
             #creamos el fichero training para meter todas las lineas
-            ofile = open('../Values/' + trainingFile + '-Training', "wb")
+            ofile = open('../Values/' + trainingFile + '-Test', "wb")
             writer = csv.writer(ofile)
             
             #vamos poniendo las lineas
@@ -928,7 +928,7 @@ class StartQT4(QtGui.QMainWindow):
                         ofile.close()
                     
                         #creamos el fichero test y vamos poniendo las lineas
-                        ofile = open('../Values/' + trainingFile + '-Test', "wb")
+                        ofile = open('../Values/' + trainingFile + '-Training', "wb")
                     writer = csv.writer(ofile)
                     #introducir la linea adecuada
                     writer.writerow(row)
